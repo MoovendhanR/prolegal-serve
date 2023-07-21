@@ -48,6 +48,7 @@ const useStyles = createStyles((theme) => ({
   chevron: {
     transition: 'transform 200ms ease',
   },
+  
 }));
 
 interface LinksGroupProps {
@@ -79,8 +80,8 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
       <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
         <Group position="apart" spacing={0}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <ThemeIcon variant="light" size={30}>
-              <Icon size="1.1rem" />
+            <ThemeIcon variant="grey" color="grey"  size={30}>
+              <Icon size="1.5rem" />
             </ThemeIcon>
             <Box ml="md">{label}</Box>
           </Box>
