@@ -10,8 +10,7 @@ import {
   IconFileInvoice
 } from '@tabler/icons-react';
 import { Logo } from './Logo';
-// import { UserButton } from './UserButton';
-import { LinksGroup } from './NavbarLinkGroup';
+ import { LinksGroup } from './NavbarLinkGroup';
 
 const mockdata = [
   { label: 'Dashboard', icon: IconLayoutDashboard },
@@ -98,7 +97,7 @@ export function NavbarPart() {
   const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
 
   return (
-    <Navbar height={800} width={{ sm: 300 }} p="md" className={classes.navbar}>
+    <Navbar height={800} width={{ sm: 250 }} p="md" className={classes.navbar}>
       <Navbar.Section className={classes.header}>
         <Group position="apart">
           <Logo width={rem(120)} />
