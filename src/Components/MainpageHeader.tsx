@@ -1,5 +1,5 @@
-import { createStyles,TextInput,Navbar, Header,ActionIcon, Container, useMantineTheme, rem } from '@mantine/core';
-import { IconSearch, IconArrowRight, IconArrowLeft } from '@tabler/icons-react';
+import { createStyles,TextInput,Box, Header,ActionIcon, useMantineTheme, rem } from '@mantine/core';
+import { IconSearch } from '@tabler/icons-react';
 
 import { UserButton } from './Navbar/UserButton';
 
@@ -9,15 +9,18 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '100%',
-    backgroundColor:"black"
+    width:"100%"
   },
 
-  footer: {
-   
-    borderTop: `${rem(1)} solid ${
-      theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-    }`,
+  feeter: {
+      display:"flex",
   },
+  userdetails:{
+    display:"flex",
+    flexDirection: "row",
+    gap:"0.5rem",
+   
+  }
   
 }));
 
@@ -32,33 +35,29 @@ export function MainPageHeader() {
 
   return (
     <Header height={60} mb={120}>
-      <div className={classes.header}>
-        {/* <MantineLogo size={28} /> */}
+      <div className={classes.header} >
 
-        <TextInput
-      icon={<IconSearch size="1.1rem" stroke={1.5} />}
+      <TextInput
       radius="xl"
-      size="md"
+      size=''
       rightSection={
-        <ActionIcon size={32} radius="xl" color={theme.primaryColor} variant="filled">
-          {theme.dir === 'ltr' ? (
-            <IconArrowRight size="1.1rem" stroke={1.5} />
-          ) : (
-            <IconArrowLeft size="1.1rem" stroke={1.5} />
-          )}
+        <ActionIcon  radius="xl" color={"grey"} variant="grey">
+         
+            <IconSearch size="1.1rem" stroke={2.5} color='orange' />
+         
         </ActionIcon>
       }
-      placeholder="Search questions"
-      rightSectionWidth={42}
-      />
+      placeholder=" Search by Case Number,Job,Servee.."
+     
+    /> 
       
-        <Navbar.Section className={classes.footer}>
+        <Box className={classes.feeter}>
         <UserButton
           image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
           name="Ann Nullpointer"
           email="anullpointer@yahoo.com"
         />
-      </Navbar.Section>
+      </Box>
       </div>
     </Header>
   );

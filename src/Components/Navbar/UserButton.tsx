@@ -24,7 +24,6 @@ const useStyles = createStyles((theme) => ({
     display:"flex",
     flexDirection: "row",
     gap:"0.5rem",
-    backgroundColor:"black"
   }
 }));
 
