@@ -14,11 +14,11 @@ function App() {
     //      <MainPage/>
     // </Paper>
     // </Container>
-    <div style={{display: 'flex', backgroundColor: 'green',gap:"0"  }}>
+    <div style={{display: 'flex',gap:"0"  }}>
         <div style={{width: '16.5%',height: '100vh'}}>
           <NavbarPart/>
         </div>
-        <div style={{width: '84.5%',height: '100vh',backgroundColor: 'yellow'}}>
+        <div style={{width: '84.5%',height: '100vh'}}>
           <MainPage/>
         </div>
    
