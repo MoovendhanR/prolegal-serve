@@ -1,10 +1,14 @@
 import React from 'react'
 import { MainPageHeader } from './MainpageHeader'
+import Jobs from './Jobs'
 
 const MainPage = () => {
+  
+
   return (
    <div>
-    <MainPageHeader/>
+    <MainPageHeader />
+    <Jobs/>
    </div>
   )
 }

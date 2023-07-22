@@ -1,4 +1,4 @@
-import { createStyles,TextInput,Box, Header,ActionIcon, useMantineTheme, rem } from '@mantine/core';
+import { createStyles,TextInput,Box, Header,ActionIcon} from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
 
 import { UserButton } from './Navbar/UserButton';
@@ -9,7 +9,8 @@ const useStyles = createStyles((theme) => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '100%',
-    width:"100%"
+    width:"100%",
+    boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px"
   },
 
   feeter: {
@@ -29,19 +30,25 @@ const useStyles = createStyles((theme) => ({
 
 
 export function MainPageHeader() {
-  const theme = useMantineTheme();
 
   const { classes} = useStyles();
 
   
 
   return (
-    <Header height={60} mb={120}>
+    <Header height={60}>
       <div className={classes.header} >
 
       <TextInput
       radius="xl"
       size=''
+      styles={{
+        input: {
+          border: 'none',
+          borderBottom: '1px solid #ddd', // If you want to keep a bottom border, you can set it here
+        },
+      }
+    }
       rightSection={
         <ActionIcon  radius="xl" color={"grey"} variant="grey">
          
@@ -49,6 +56,8 @@ export function MainPageHeader() {
          
         </ActionIcon>
       }
+
+      
       placeholder=" Search by Case Number,Job,Servee.."
      
     /> 
