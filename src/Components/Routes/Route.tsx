@@ -9,7 +9,7 @@ const AllRoutes: React.FC = () => {
   return (
    <Routes>
       <Route path="/" element={<MainPage/>} />
-      <Route path="/view-job/:id" element={<TicketDetails/>}/>
+      <Route path="/view-job/:ticketId" element={<TicketDetails/>}/>
    </Routes>
   );
 };

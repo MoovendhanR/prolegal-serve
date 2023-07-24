@@ -32,7 +32,7 @@ interface PaginationProps {
       pageButtons.push(
         <Button
           key={page}
-          variant={isCurrentPage ? 'filled' : 'light'}
+          variant={isCurrentPage ? 'default' : 'default'}
           size="sm"
           onClick={() => handlePageClick(page)}
           style={{ margin: '2px' }}
@@ -51,7 +51,7 @@ interface PaginationProps {
     <div style={{ display: 'flex', alignItems: 'center',marginTop:'2rem',justifyContent: 'center'}}>
     <Button
       disabled={currentPage === 1}
-      variant="light"
+      variant="default"
       size="sm"
       onClick={handlePrevClick}
       style={{ marginRight: '10px' }}
@@ -63,7 +63,7 @@ interface PaginationProps {
 
     <Button
       disabled={currentPage === totalPages}
-      variant="light"
+      variant="default"
       size="sm"
       onClick={handleNextClick}
       style={{ marginLeft: '10px' }}

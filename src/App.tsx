@@ -21,8 +21,8 @@ function App() {
           <NavbarPart/>
         </div>
         <div style={{width: '84.5%',height: '100vh'}}>
-        <MainPageHeader />
-         <AllRoutes/>
+          <MainPageHeader />
+           <AllRoutes/>
         </div>
    
     </div>
