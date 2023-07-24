@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from 'react';
-import { Text, Grid, Paper, Button } from '@mantine/core';
+import { Text, Grid, Paper, Button, Loader } from '@mantine/core';
 import PaginationComponent from './Pagination';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -184,32 +184,92 @@ console.log(data)
           }}
         >
 
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>Icon</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.createdAt}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.ticketUpdatedBy}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.senderEmail}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.subject}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.status}</Paper>
+          <Paper style={{
+             display: "flex",
+             justifyContent: "center",
+             alignItems: "center",
+             width: "60%",
+             height:"60%",
+             margin:"auto",
+            padding:"0.5rem",textAlign:'center'}}>Icon</Paper>
+          <Paper style={{
+             display: "flex",
+             justifyContent: "center",
+             alignItems: "center",
+             margin:"auto",
+             fontSize:"12px",
+            padding:"0.5rem",textAlign:'center'}}>{ticket.createdAt}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.ticketUpdatedBy}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.senderEmail}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.subject}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.status}</Paper>
           <Paper 
            style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            width: "50%",
-            height:"50%",
+            // width: "50%",
+            // height:"50%",
             margin:"auto",
+            fontSize:"12px",
+
             padding:"0.5rem",textAlign:'center',
             background: ticket.ticketPriority === 'high' ? 'red' : ticket.ticketPriority === 'low' ? 'green' : 'orange',
             color: ticket.ticketPriority === 'high' || ticket.ticketPriority === 'low' ? 'white' : 'black',
           }}
           >{ticket.ticketPriority}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>{ticket.attachments.length}</Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>
-          <Button variant="default">
-            {`View Ticket #${ticket.ticketId}`}
-          </Button>
-            </Paper>
-          <Paper style={{padding:"0.5rem",textAlign:'center'}}>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.attachments.length}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            
+              margin:"auto",
+              padding:"0.5rem",
+              fontSize:"12px",
+            textAlign:'center',border:"1px solid #b9c2c9"}}>
+            {`View Ticket #${ticket.ticketId}`}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+            padding:"0.5rem",textAlign:'center'}}>
          <Link  to={`/view-job/${ticket.ticketId}`}>
             <Button variant="default">
             View Job
@@ -220,7 +280,14 @@ console.log(data)
       ))}
       </>
         ):(
-            <Text >Loading....</Text>
+           <div style={{  display: "flex",
+           justifyContent: "center",
+           alignItems: "center",
+           margin:"auto",
+           marginTop:'3rem'
+           }}>
+            <Loader size="xl" />
+           </div>
         )
       }
 
