@@ -2,7 +2,9 @@ import React from 'react';
 
 // import './App.css';
 import {  NavbarPart } from './Components/Navbar/Navbar';
-import MainPage from './Components/MainPage';
+// import MainPage from './Components/MainPage';
+import AllRoutes from './Components/Routes/Route';
+import { MainPageHeader } from './Components/MainpageHeader';
 
 function App() {
   return (
@@ -19,7 +21,8 @@ function App() {
           <NavbarPart/>
         </div>
         <div style={{width: '84.5%',height: '100vh'}}>
-          <MainPage/>
+        <MainPageHeader />
+         <AllRoutes/>
         </div>
    
     </div>
