@@ -170,9 +170,9 @@ console.log(data)
         </Paper>
       </Grid>
       {
-        data.length > 0 ? (
+        data?.length > 0 ? (
             <>
-       {data.map((ticket) => (
+       {data?.map((ticket) => (
         <Grid
           key={ticket.id}
           style={{
@@ -198,7 +198,7 @@ console.log(data)
              alignItems: "center",
              margin:"auto",
              fontSize:"12px",
-            padding:"0.5rem",textAlign:'center'}}>{ticket.createdAt}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.createdAt}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -206,7 +206,7 @@ console.log(data)
               margin:"auto",
               fontSize:"12px",
 
-            padding:"0.5rem",textAlign:'center'}}>{ticket.ticketUpdatedBy}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.ticketUpdatedBy}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -214,7 +214,7 @@ console.log(data)
               margin:"auto",
               fontSize:"12px",
 
-            padding:"0.5rem",textAlign:'center'}}>{ticket.senderEmail}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.senderEmail}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -222,7 +222,7 @@ console.log(data)
               margin:"auto",
               fontSize:"12px",
 
-            padding:"0.5rem",textAlign:'center'}}>{ticket.subject}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.subject}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -230,7 +230,7 @@ console.log(data)
               margin:"auto",
               fontSize:"12px",
 
-            padding:"0.5rem",textAlign:'center'}}>{ticket.status}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.status}</Paper>
           <Paper 
            style={{
             display: "flex",
@@ -245,7 +245,7 @@ console.log(data)
             background: ticket.ticketPriority === 'high' ? 'red' : ticket.ticketPriority === 'low' ? 'green' : 'orange',
             color: ticket.ticketPriority === 'high' || ticket.ticketPriority === 'low' ? 'white' : 'black',
           }}
-          >{ticket.ticketPriority}</Paper>
+          >{ticket?.ticketPriority}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -253,7 +253,7 @@ console.log(data)
               margin:"auto",
               fontSize:"12px",
 
-            padding:"0.5rem",textAlign:'center'}}>{ticket.attachments.length}</Paper>
+            padding:"0.5rem",textAlign:'center'}}>{ticket?.attachments?.length}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
@@ -263,14 +263,14 @@ console.log(data)
               padding:"0.5rem",
               fontSize:"12px",
             textAlign:'center',border:"1px solid #b9c2c9"}}>
-            {`View Ticket #${ticket.ticketId}`}</Paper>
+            {`View Ticket #${ticket?.ticketId}`}</Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
               margin:"auto",
             padding:"0.5rem",textAlign:'center'}}>
-         <Link  to={`/view-job/${ticket.ticketId}`}>
+         <Link  to={`/view-job/${ticket?.ticketId}`}>
             <Button variant="default">
             View Job
             </Button>
@@ -296,10 +296,9 @@ console.log(data)
 
 
       <PaginationComponent 
-currentPage={currentPage}
-totalPages={totalPages}
-onPageChange={handlePageChange}
-    
+   currentPage={currentPage}
+    totalPages={totalPages}
+    onPageChange={handlePageChange}
       />
     </div>
   );

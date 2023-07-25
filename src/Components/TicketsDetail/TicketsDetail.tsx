@@ -1,10 +1,11 @@
-import { Avatar, Notification, Paper, Text } from '@mantine/core';
-import { IconChevronDown, IconChevronLeft, IconNotes, IconPlus } from '@tabler/icons-react';
+import { Avatar, Grid, Loader, Notification, Paper, Text } from '@mantine/core';
+import { IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
 import axios from "axios";
-import { Document,Page } from '@react-pdf/renderer';
-// import { Document, Page, pdfjs } from 'react-pdf';
+// import { Document,Page } from '@react-pdf/renderer';
+import { Document, Page, pdfjs } from 'react-pdf';
+import TabComponent from './TabData';
 
 interface Attachment {
     id: number;
@@ -130,7 +131,7 @@ const TicketDetails: React.FC = () => {
           };
       try {
         const response = await axios.get<{ data: TicketData[] }>(apiEndpoint,{headers});
-        setTicketData(response.data.data);
+        setTicketData(response.data?.data);
       } catch (error) {
         setError('Error fetching ticket details.');
       }
@@ -139,7 +140,7 @@ const TicketDetails: React.FC = () => {
     fetchData();
   }, [ticketId]);
 
-console.log(ticketData)
+const jobdata=ticketData[0]?.jobs;
 
 
 
@@ -165,6 +166,24 @@ const displayAttachmentPDF = (s3Url: string) => {
       </Paper>
     );
   };
+
+
+
+
+
+
+  const appendDocumentType = (documentName: string, documentType: string, isPrimary: boolean) => {
+    if (!isPrimary) {
+      return `${documentName} - ${documentType}`;
+    }
+    return documentName;
+  };
+
+  // Helper function to display noOfPages in Used in Jobs column
+  const displayNoOfPages = (noOfPages: number | undefined) => {
+    return noOfPages || '-';
+  };
+
 
   return (
     <>
@@ -231,7 +250,7 @@ const displayAttachmentPDF = (s3Url: string) => {
 
 
 
-    <Paper style={{display:"flex",justifyContent:"space-between",width:"95%",height:"300px",margin:"auto",gap:"1rem"}}>
+    <Paper style={{display:"flex",justifyContent:"space-between",width:"95%",height:"270px",margin:"auto",gap:"1rem"}}>
        <Paper style={{flex:"1",border:"1px solid gray"}}>
            <Paper style={{display:"flex",justifyContent:"space-between",padding:"1rem"}}>
             <Text style={{padding:"0.7rem",fontSize:"19px"}}>
@@ -241,9 +260,151 @@ const displayAttachmentPDF = (s3Url: string) => {
            <IconNotes />
            <Text  style={{marginLeft:"1rem"}}>Upload</Text>
          </Paper>
-           </Paper>
+       
+        </Paper>
+        {/* display data */}
+         <Grid
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          padding:"0.1rem",
+          textAlign:"center",
+          marginLeft:"4.5rem",
+          justifyContent:"space-even",
+          alignItems: 'center',
+        }}
+      >
+         <Paper style={{textAlign:'center',color:"#9D733F",width:"25%"}}>
+          <Text size="sm" align="center">
+           <IconEyeCheck/>
+          </Text>
+        </Paper> 
+         <Paper style={{padding:"0.1rem",textAlign:'center',color:"#9D733F",width:"25%"}}>
+          <Text size="l" align="center">
+            Type
+          </Text>
+        </Paper> <Paper style={{padding:"0.1rem",textAlign:'center',color:"#9D733F",width:"25%"}}>
+          <Text size="l" align="center">
+            Name
+          </Text>
+        </Paper> <Paper style={{padding:"0.1rem",textAlign:'center',color:"#9D733F",width:"25%"}}>
+          <Text size="l" align="center">
+            UsedIn
+          </Text>
+        </Paper>
+        </Grid>
+        {/* maping data */}
+        {/* {
+        ticketData.attachments.length > 0 ? (
+            <>
+       {ticketData.attachments.map((ticket) => (
+        <Grid
+          key={ticket.id}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(10, 1fr)',
+            gap: '8px',
+            marginTop: '1rem',
+            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
+          }}
+        >
+
+          <Paper style={{
+             display: "flex",
+             justifyContent: "center",
+             alignItems: "center",
+             width: "60%",
+             height:"60%",
+             margin:"auto",
+            padding:"0.5rem",textAlign:'center'}}>
+              <IconEyeFilled/>
+            </Paper>
+          <Paper style={{
+             display: "flex",
+             justifyContent: "center",
+             alignItems: "center",
+             margin:"auto",
+             fontSize:"12px",
+            padding:"0.5rem",textAlign:'center'}}>{ticket.createdAt}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.ticketUpdatedBy}</Paper>
+          <Paper style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              margin:"auto",
+              fontSize:"12px",
+
+            padding:"0.5rem",textAlign:'center'}}>{ticket.senderEmail}</Paper>
+        
+          
+         
+        </Grid>
+      ))} */}
+
+
+
+{
+      ticketData?.length > 0 ? (
+            <>
+       <div>
+          <div key={ticketData[0]?.id}>
+            {ticketData[0]?.attachments?.length > 0 && (
+              <Paper  shadow="sm">
+                <Grid columns={4}style={{
+                  display: 'grid',
+                  padding:"1.5rem",
+                  gridTemplateRows: 'repeat(4, 1fr)',
+                  boxShadow:"none"
+                  }}>
+                  {ticketData[0]?.attachments?.map((attachment) => (
+                    <Paper key={attachment?.id}  shadow="sm" style={{ textAlign: 'center',display:"flex",justifyContent: 'space-evenly',boxShadow:"none"}}>
+                      <Avatar size="sm" style={{width:"24%", boxShadow:"none",backgroundColor:"none"}}>
+                        <IconGripVertical/>
+                        <IconEyeFilled color="grey"/></Avatar>
+                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",
+                      width:"24%", boxShadow:"none",
+                       whiteSpace: "nowrap",
+                       overflow: "hidden",
+                       textOverflow: "ellipsis",
+                    }}>{attachment?.attachments[0]?.documentName}</Text>
+                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",width:"24%", boxShadow:"none",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                    }}>{attachment?.attachments[0]?.documentType}</Text>
+                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",width:"24%", boxShadow:"none"}}>{attachment?.attachments[0]?.noOfPages}</Text>
+                    </Paper>
+                  ))}
+                </Grid>
+              </Paper>
+            )}
+          </div>
+        </div>
+      </>
+        ):(
+           <div style={{  display: "flex",
+           justifyContent: "center",
+           alignItems: "center",
+           margin:"auto",
+           marginTop:'3rem'
+           }}>
+            <Loader size="xl" />
+           </div>
+        )
+      }
+
+        
        </Paper>
-       <Paper style={{flex:"1",border:"1px solid gray"}}>
+
+
+       <Paper style={{flex:"1",border:"1px solid gray",width:"40%"}}>
        <Paper style={{display:"flex",justifyContent:"space-between",padding:"1rem"}}>
             <Text style={{padding:"0.7rem",fontSize:"19px"}}>
                 Documents to Serve
@@ -253,6 +414,7 @@ const displayAttachmentPDF = (s3Url: string) => {
            <Text  style={{marginLeft:"1rem"}}>Add Job</Text>
          </Paper>
            </Paper>
+         <TabComponent  jobdata={jobdata} />
        </Paper>
     </Paper>
 
@@ -265,12 +427,12 @@ const displayAttachmentPDF = (s3Url: string) => {
          <Paper style={{border:"1px solid black",width:"65%"}}>
          <div>
       {/* Other components and content */}
-      {ticketData.length > 0 && (
+      {ticketData?.length > 0 && (
         <div>
           {/* Display other ticket details */}
-          <div key={ticketData[0].id}>
+          <div key={ticketData[0]?.id}>
             {/* Display other attachment details */}
-            {displayAttachmentPDF(ticketData[0].attachments[0].s3Url)}
+            {displayAttachmentPDF(ticketData[0]?.attachments[0]?.s3Url)}
           </div>
           
         </div>
