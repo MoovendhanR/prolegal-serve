@@ -3,11 +3,16 @@ import { IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGrip
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
 import axios from "axios";
-// import { Document,Page } from '@react-pdf/renderer';
-import { Document, Page, pdfjs } from 'react-pdf';
 import TabComponent from './TabData';
-import { AllDetailsComponent } from './AllDetailsComponent';
+import { Navbar, Group, ScrollArea, createStyles, rem } from '@mantine/core';
+import {
 
+  IconFolderPlus,
+  IconLayoutDashboard,
+  IconBriefcase2,
+  IconSettings,
+} from '@tabler/icons-react';
+import { LinksGroupsData } from './LinkGroupsData';
 interface Attachment {
     id: number;
     s3Url: string;
@@ -115,13 +120,13 @@ interface Attachment {
   
   
 
-const TicketDetails: React.FC = () => {
+  const TicketDetails: React.FC = () => {
+  const [ticketData, setTicketData] = useState<TicketData[]>([]);
     const { ticketId } = useParams<{ ticketId: string }>();
     const [numPages, setNumPages] = useState<number >(2);
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [dropdownOpened, setDropdownOpened] = useState(false);
 
-    const [ticketData, setTicketData] = useState<TicketData[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -145,7 +150,6 @@ const TicketDetails: React.FC = () => {
 const jobdata=ticketData[0]?.jobs;
 
 
-
 // pdf format
 const displayAttachmentPDF = (s3Url: string) => {
     // You can render the PDF here using Mantine-UI components or any other PDF viewer library
@@ -154,13 +158,13 @@ const displayAttachmentPDF = (s3Url: string) => {
         <iframe src={s3Url} title="PDF Viewer" width="100%" height="1000px"/>
         {/* <Document
                   file={ticketData[0].attachments[0].s3Url}
-                //   onLoadSuccess={({ numPages }) => {
-                //     setNumPages(2); // Set total number of pages to 2
-                //   }}
+                  //   onLoadSuccess={({ numPages }) => {
+                    //     setNumPages(2); // Set total number of pages to 2
+                    //   }}
                 >
-                  <Page pageNumber={pageNumber} width={600} />
-                  {numPages === 2 && <Page pageNumber={pageNumber + 1} width={600} />}
-                </Document> */}
+                <Page pageNumber={pageNumber} width={600} />
+                {numPages === 2 && <Page pageNumber={pageNumber + 1} width={600} />}
+              </Document> */}
           {/* <Document file={s3Url}>
             <Page />
           </Document> */}
@@ -168,6 +172,121 @@ const displayAttachmentPDF = (s3Url: string) => {
       </Paper>
     );
   };
+  
+  console.log(ticketData)
+
+  function AllDetailsComponent() {
+    const useStyles = createStyles((theme) => ({
+      navbar: {
+          backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
+          paddingBottom: 0,
+      },
+      
+      header: {
+          padding: theme.spacing.md,
+          paddingTop: 0,
+          marginLeft: `calc(${theme.spacing.md} * -1)`,
+          marginRight: `calc(${theme.spacing.md} * -1)`,
+          color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+          borderBottom: `${rem(1)} solid ${
+              theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+          }`,
+      },
+      
+      
+      links: {
+          marginLeft: `calc(${theme.spacing.md} * -1)`,
+          marginRight: `calc(${theme.spacing.md} * -1)`,
+      },
+      
+      linksInner: {
+          paddingTop: theme.spacing.xl,
+          paddingBottom: theme.spacing.xl,
+      },
+      
+      footer: {
+          marginLeft: `calc(${theme.spacing.md} * -1)`,
+          marginRight: `calc(${theme.spacing.md} * -1)`,
+          borderTop: `${rem(1)} solid ${
+              theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+          }`,
+      },
+    }));
+  
+     console.log("data",ticketData[0]);
+      var mockdata = [
+        { label: 'Document', 
+        icon: IconLayoutDashboard,
+        initiallyOpened: true,
+        links: [
+          { label: `Document Name`, link: '/' },
+          { label: `summons`, link: '/' },
+          
+        ],
+      },
+      {
+        label: 'Servee',
+        icon: IconNotes,
+        initiallyOpened: true,
+        links: [
+          { label: `Person or Business`, link: '/' },
+          { label: `Bob's Plumbing Inc`, link: '/' },
+          { label: `CT Corporation`, link: '/' },
+          { label: `Bob's Plumbing Inc`, link: '/' },
+          { label: `CT Corporation`, link: '/' },
+          { label: `From Google Api`, link: '/' },
+        ],
+      },
+      {
+        label: 'Case',
+        icon: IconFolderPlus,
+        initiallyOpened: true,
+        links: [
+          { label: `Case Number`, link: '/' },
+          { label: `John Doe`, link: '/' },
+          { label: `XYZ insurance`, link: '/' },
+          { label: `FL`, link: '/' },
+          { label: `Broward`, link: '/' },
+          { label: `Circuit`, link: '/' },  
+          { label: 'John Legal Esquire', link: '/' },
+          { label: 'May 8th,2023', link: '/' },
+        ],
+      },
+      { label: 'Client', icon: IconBriefcase2,
+      initiallyOpened: true,
+      links: [
+        { label: `Comapny`, link: '/' },
+        { label: `User`, link: '/' },
+        { label: `Reference`, link: '/' },
+        { label: `Yes`, link: '/' },
+        
+      ],
+    },
+    
+    
+    {
+      label: 'Job',
+      icon: IconSettings,
+      initiallyOpened: true,
+      links: [
+        { label: `Standard`, link: '/' },
+        { label: `First Attempt Date`, link: '/' },
+        { label: `Special Instruction`, link: '/' },
+      ],
+    },
+  ];
+  const { classes } = useStyles();
+  var links = mockdata.map((item,id) => <LinksGroupsData {...item} key={id} />);
+  
+  return (
+    <Navbar height={1400} width={{ sm: 370 }} p="md" className={classes.navbar}>
+     
+      <Navbar.Section grow className={classes.links} component={ScrollArea}>
+        <div className={classes.linksInner}>{links}</div>
+      </Navbar.Section>
+    </Navbar>
+  );
+  }
 
 
 
@@ -449,8 +568,8 @@ const displayAttachmentPDF = (s3Url: string) => {
     </div>
          </Paper>
          <Paper style={{border:"1px solid black",width:"35%"}}>
+          <AllDetailsComponent/>
    
-        <AllDetailsComponent/>
     
          </Paper>
        </Paper>

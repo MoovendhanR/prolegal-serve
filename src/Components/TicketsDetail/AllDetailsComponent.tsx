@@ -7,7 +7,102 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 import { LinksGroupsData } from './LinkGroupsData';
-
+interface Attachment {
+    id: number;
+    s3Url: string;
+    fileName:string;
+    attachments: {
+        id: number;
+        documentName: string;
+        documentType: string;
+        isPrimary: boolean;
+        noOfPages: number;
+      }[];
+  }
+ 
+  
+  interface Case {
+    id: number;
+    referenceOrMatterNumber: string | null;
+    caseNumber: string;
+    state: string;
+    county: string;
+    courtType: string;
+    plaintiff: string;
+    defendant: string;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  interface Job {
+    id: number;
+    serviceSpeed: string;
+    serveeType: string;
+    serveeName: string | null;
+    registeredAgent: string | null;
+    zipcode: string;
+    googlePlacesAddress: string | null;
+    serveeAddress: string;
+    firstAttemptBy: string | null;
+    specialInstructions: string | null;
+    trialDepoOrActionDate: string | null;
+    status: string;
+    attorneyName: string;
+    eFileReturnOfService: boolean;
+    zendeskId: number;
+    caseId: number;
+    createdAt: string;
+    updatedAt: string;
+    case: Case;
+    attachments: Attachment[];
+    serverAddress: string[];
+    jobPictures: string[];
+  }
+  
+  interface Company {
+    id: number;
+    operatingCompany: string;
+    type: string;
+    name: string;
+    caseManagementSoftware: string;
+    phoneNumber: string;
+    addressId: number;
+    specialityId: number | null;
+    accountManagerId: number;
+    createdAt: string;
+    updatedAt: string;
+  }
+  
+  interface User {
+    id: number;
+    firstName: string;
+    lastName: string;
+    email: string;
+  }
+  
+  interface TicketData {
+   
+    id: number;
+    ticketId: string;
+    senderEmail: string;
+    subject: string;
+    ticketUpdatedBy: string;
+    ticketComment: string;
+    ticketPriority: string;
+    status: string;
+    companyId: number;
+    userId: number;
+    createdAt: string;
+    updatedAt: string;
+    attachments: Attachment[];
+    jobs: Job[];
+    company: Company;
+    user: User;
+    viewers: any[]; // Replace any with the actual type if available
+  
+  }
+  
+  
 const useStyles = createStyles((theme) => ({
     navbar: {
         backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
@@ -45,7 +140,8 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function AllDetailsComponent() {
+export function AllDetailsComponent({id,ticketId,senderEmail,subject,ticketUpdatedBy,ticketComment,ticketPriority,status,companyId,userId,createdAt,updatedAt,attachments,jobs,company,user,viewers}:TicketData) {
+
     const mockdata = [
       { label: 'Document', 
       icon: IconLayoutDashboard,
@@ -116,8 +212,6 @@ export function AllDetailsComponent() {
       <Navbar.Section grow className={classes.links} component={ScrollArea}>
         <div className={classes.linksInner}>{links}</div>
       </Navbar.Section>
-
-   
     </Navbar>
   );
 }
