@@ -117,18 +117,21 @@ interface Attachment {
     viewers: Viewer[];
   }
   
-  
+  // interface Jobdata{
+
+  // }
   
 
   const TicketDetails: React.FC = () => {
   const [ticketData, setTicketData] = useState<TicketData[]>([]);
+  const [jobdata,setJobdata] = useState<any>([]);
     const { ticketId } = useParams<{ ticketId: string }>();
     const [numPages, setNumPages] = useState<number >(2);
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [dropdownOpened, setDropdownOpened] = useState(false);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
 
   const [error, setError] = useState<string | null>(null);
-
   useEffect(() => {
     const fetchData = async () => {
         const apiEndpoint =`https://core-api-staging.processserver.ai/api/zendesk/${ticketId}`
@@ -139,6 +142,8 @@ interface Attachment {
       try {
         const response = await axios.get<{ data: TicketData[] }>(apiEndpoint,{headers});
         setTicketData(response.data?.data);
+        setJobdata(response.data?.data[0]?.jobs);
+        console.log(response.data?.data[0].jobs,"jobs data from response")
       } catch (error) {
         setError('Error fetching ticket details.');
       }
@@ -147,7 +152,13 @@ interface Attachment {
     fetchData();
   }, [ticketId]);
 
-const jobdata=ticketData[0]?.jobs;
+
+  console.log(selectedId)
+      
+  const handleClick=(id:number) => {
+    setSelectedId(id)
+  }
+
 
 
 // pdf format
@@ -173,7 +184,6 @@ const displayAttachmentPDF = (s3Url: string) => {
     );
   };
   
-  console.log(ticketData)
 
   function AllDetailsComponent() {
     const useStyles = createStyles((theme) => ({
@@ -237,7 +247,7 @@ const displayAttachmentPDF = (s3Url: string) => {
           { label: ticketData[0]?.jobs[0]?.googlePlacesAddress||"Not Mentioned", link: 'Address Type' },
         ],
       },
-      {
+            {
         label: 'Case',
         icon: IconFolderPlus,
         initiallyOpened: true,
@@ -286,15 +296,11 @@ const displayAttachmentPDF = (s3Url: string) => {
       </Navbar.Section>
     </Navbar>
   );
-  }
+}
 
 
-
-
-
-
-  const appendDocumentType = (documentName: string, documentType: string, isPrimary: boolean) => {
-    if (!isPrimary) {
+const appendDocumentType = (documentName: string, documentType: string, isPrimary: boolean) => {
+  if (!isPrimary) {
       return `${documentName} - ${documentType}`;
     }
     return documentName;
@@ -415,59 +421,8 @@ const displayAttachmentPDF = (s3Url: string) => {
         </Paper>
         </Grid>
         {/* maping data */}
-        {/* {
-        ticketData.attachments.length > 0 ? (
-            <>
-       {ticketData.attachments.map((ticket) => (
-        <Grid
-          key={ticket.id}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(10, 1fr)',
-            gap: '8px',
-            marginTop: '1rem',
-            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
-          }}
-        >
+       
 
-          <Paper style={{
-             display: "flex",
-             justifyContent: "center",
-             alignItems: "center",
-             width: "60%",
-             height:"60%",
-             margin:"auto",
-            padding:"0.5rem",textAlign:'center'}}>
-              <IconEyeFilled/>
-            </Paper>
-          <Paper style={{
-             display: "flex",
-             justifyContent: "center",
-             alignItems: "center",
-             margin:"auto",
-             fontSize:"12px",
-            padding:"0.5rem",textAlign:'center'}}>{ticket.createdAt}</Paper>
-          <Paper style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin:"auto",
-              fontSize:"12px",
-
-            padding:"0.5rem",textAlign:'center'}}>{ticket.ticketUpdatedBy}</Paper>
-          <Paper style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              margin:"auto",
-              fontSize:"12px",
-
-            padding:"0.5rem",textAlign:'center'}}>{ticket.senderEmail}</Paper>
-        
-          
-         
-        </Grid>
-      ))} */}
 
 
 
@@ -486,7 +441,7 @@ const displayAttachmentPDF = (s3Url: string) => {
                   }}>
                   {ticketData[0]?.attachments?.map((attachment) => (
                     <Paper key={attachment?.id}  shadow="sm" style={{ textAlign: 'center',display:"flex",justifyContent: 'space-evenly',boxShadow:"none"}}>
-                      <Avatar size="sm" style={{width:"24%", boxShadow:"none",backgroundColor:"none"}}>
+                      <Avatar size="sm" style={{width:"24%", boxShadow:"none",backgroundColor:"none"}}onClick={() => handleClick(attachment.id)}>
                         <IconGripVertical/>
                         <IconEyeFilled color="grey"/></Avatar>
                       <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",
@@ -535,7 +490,7 @@ const displayAttachmentPDF = (s3Url: string) => {
            <Text  style={{marginLeft:"1rem"}}>Add Job</Text>
          </Paper>
            </Paper>
-         {/* <TabComponent  jobdata={jobdata} /> */}
+         <TabComponent  jobdata={jobdata} />
        </Paper>
     </Paper>
 
@@ -553,7 +508,7 @@ const displayAttachmentPDF = (s3Url: string) => {
           {/* Display other ticket details */}
           <div key={ticketData[0]?.id}>
             {/* Display other attachment details */}
-            {displayAttachmentPDF(ticketData[0]?.attachments[0]?.s3Url)}
+            {displayAttachmentPDF(ticketData[0]?.attachments[selectedId?selectedId:0]?.s3Url)}
           </div>
           
         </div>
@@ -568,9 +523,7 @@ const displayAttachmentPDF = (s3Url: string) => {
     </div>
          </Paper>
          <Paper style={{width:"35%"}}>
-          <AllDetailsComponent/>
-   
-    
+          <AllDetailsComponent/>  
          </Paper>
        </Paper>
     </>

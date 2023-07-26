@@ -100,8 +100,9 @@ function  TabComponent({jobdata}:JobData) {
   // ];
   const [tabsData,setDabsData] = useState(jobdata)
     
+  console.log(jobdata,"tabsdata")
   useEffect(()=>{
-    setDabsData((jobdata)=>jobdata)
+     setDabsData(jobdata)
   },[jobdata])
   console.log(tabsData)
 
@@ -146,7 +147,7 @@ function  TabComponent({jobdata}:JobData) {
                        overflow: "hidden",
                        textOverflow: "ellipsis",
                     }}>
-                      {tabsData[activeTab]?.attachments.map((tab)=>(
+                      {tabsData[activeTab]?.attachments?.map((tab)=>(
                        <>
                        <Text  
                        style={{padding:"0.5rem",textAlign:'center',
@@ -154,14 +155,14 @@ function  TabComponent({jobdata}:JobData) {
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
-                    }} >{tab.documentName}</Text>
+                    }} >{tab?.documentName}</Text>
                         <Text  
                       style={{padding:"0.5rem",textAlign:'center',
                        width:"50%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
-                    }}>{tab.documentType}</Text>
+                    }}>{tab?.documentType}</Text>
                         </>
                       ))}
                     </Text>
