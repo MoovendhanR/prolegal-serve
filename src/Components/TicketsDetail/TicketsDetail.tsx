@@ -1,4 +1,4 @@
-import { Avatar, Grid, Loader, Notification, Paper, Text } from '@mantine/core';
+import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput } from '@mantine/core';
 import { IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
@@ -118,6 +118,7 @@ const TicketDetails: React.FC = () => {
     const { ticketId } = useParams<{ ticketId: string }>();
     const [numPages, setNumPages] = useState<number >(2);
     const [pageNumber, setPageNumber] = useState<number>(1);
+    const [dropdownOpened, setDropdownOpened] = useState(false);
 
     const [ticketData, setTicketData] = useState<TicketData[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -446,7 +447,24 @@ const displayAttachmentPDF = (s3Url: string) => {
       )}
     </div>
          </Paper>
-         <Paper style={{border:"1px solid black",width:"35%"}}></Paper>
+         <Paper style={{border:"1px solid black",width:"35%"}}>
+
+
+         <Select
+      label="Your favorite framework/library"
+      placeholder="Pick one"
+      rightSection={<IconChevronDown size="1rem" />}
+      rightSectionWidth={30}
+      styles={{ rightSection: { pointerEvents: 'none' } }}
+      data={['React', 'Angular', 'Svelte', 'Vue']}
+    >
+       {/* <TextInput
+      placeholder="Your name"
+      label="Full name"
+      withAsterisk
+    /> */}
+    </Select>
+         </Paper>
        </Paper>
     </>
   );

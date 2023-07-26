@@ -109,21 +109,24 @@ function  TabComponent({jobdata}:JobData) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <Tabs >
+      <Tabs>
+        <div style={{display:"flex",gap:"0.5rem",alignItems: "flex-start"}}>
+
         {tabsData?.map((tab, index) => (
           <Button
-              
-            key={index}
-            variant={index === activeTab ? 'outline' : 'default'}
-            onClick={() => setActiveTab(index)}
+          
+          key={index}
+          variant={index === activeTab ? 'outline' : 'default'}
+          onClick={() => setActiveTab(index)}
           >
           <IconNote/>
            {`Job ${index+1}`}
           </Button>
         ))}
+        </div>
       </Tabs>
      
-      <div style={{ marginTop: 20,width:'60%' }}>
+      <div style={{ marginTop: 20,width:'70%' }}>
         <Paper style={{display:"flex",gap:"0.5rem"}}>
             <Text style={{width:"30%"}}>{" "}</Text>
             <Text style={{width:"30%",color:"#9D733F"}}>Type</Text>
@@ -131,23 +134,46 @@ function  TabComponent({jobdata}:JobData) {
         </Paper>
         <Paper style={{display:"flex",gap:"0.5rem",alignItems:'center' }}>
 
-        <Text style={{display:"flex",color:"#9D733F"}}>
+        <Text style={{display:"flex",color:"#b0aba5",width:"25%"}}>
           <IconGripVertical/>
           <IconEye/>
           <IconNotes/>
         </Text>
         <Text style={{padding:"0.5rem",textAlign:'center',
-                       width:"30%",
+                      display:"flex",
+                       width:"70%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
-                    }}>{tabsData[activeTab]?.attachments[0]?.documentName}</Text>
-        <Text style={{padding:"0.5rem",textAlign:'center',
+                    }}>
+                      {tabsData[activeTab]?.attachments.map((tab)=>(
+                       <>
+                       <Text  
+                       style={{padding:"0.5rem",textAlign:'center',
+                       width:"50%",
+                       whiteSpace: "nowrap",
+                       overflow: "hidden",
+                       textOverflow: "ellipsis",
+                    }} >{tab.documentName}</Text>
+                        <Text  
+                      style={{padding:"0.5rem",textAlign:'center',
+                       width:"50%",
+                       whiteSpace: "nowrap",
+                       overflow: "hidden",
+                       textOverflow: "ellipsis",
+                    }}>{tab.documentType}</Text>
+                        </>
+                      ))}
+                    </Text>
+
+
+
+        {/* <Text style={{padding:"0.5rem",textAlign:'center',
                     width:"30%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
-                    }}>{tabsData[activeTab]?.attachments[0]?.documentType}</Text>
+                    }}>{tabsData[activeTab]?.attachments[0]?.documentType}</Text> */}
         </Paper>
       </div>
     </div>
