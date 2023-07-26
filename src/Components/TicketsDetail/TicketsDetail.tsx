@@ -6,6 +6,7 @@ import axios from "axios";
 // import { Document,Page } from '@react-pdf/renderer';
 import { Document, Page, pdfjs } from 'react-pdf';
 import TabComponent from './TabData';
+import { AllDetailsComponent } from './AllDetailsComponent';
 
 interface Attachment {
     id: number;
@@ -415,7 +416,7 @@ const displayAttachmentPDF = (s3Url: string) => {
            <Text  style={{marginLeft:"1rem"}}>Add Job</Text>
          </Paper>
            </Paper>
-         <TabComponent  jobdata={jobdata} />
+         {/* <TabComponent  jobdata={jobdata} /> */}
        </Paper>
     </Paper>
 
@@ -448,22 +449,9 @@ const displayAttachmentPDF = (s3Url: string) => {
     </div>
          </Paper>
          <Paper style={{border:"1px solid black",width:"35%"}}>
-
-
-         <Select
-      label="Your favorite framework/library"
-      placeholder="Pick one"
-      rightSection={<IconChevronDown size="1rem" />}
-      rightSectionWidth={30}
-      styles={{ rightSection: { pointerEvents: 'none' } }}
-      data={['React', 'Angular', 'Svelte', 'Vue']}
-    >
-       {/* <TextInput
-      placeholder="Your name"
-      label="Full name"
-      withAsterisk
-    /> */}
-    </Select>
+   
+        <AllDetailsComponent/>
+    
          </Paper>
        </Paper>
     </>
