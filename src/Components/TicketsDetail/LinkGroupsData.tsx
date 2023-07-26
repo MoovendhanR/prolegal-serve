@@ -3,7 +3,6 @@ import {
   Group,
   Box,
   Collapse,
-  ThemeIcon,
   Text,
   UnstyledButton,
   createStyles,
@@ -64,16 +63,20 @@ export function LinksGroupsData({ icon: Icon, label, initiallyOpened, links }: L
   const [opened, setOpened] = useState(initiallyOpened || false);
   const ChevronIcon = theme.dir === 'ltr' ? IconChevronRight : IconChevronLeft;
   const items = (hasLinks ? links : []).map((link,id) => (
+  <>
+  <Text style={{marginLeft:"1rem",fontSize:"1rem",color:"#808080"}}>
+    {link.link}
+  </Text>
     <Text<'a'>
-      component="a"
-      className={classes.link}
-      href={link.link}
-      key={id}
-      style={{border: '0.7px solid #cbc6c6',marginTop:"0.5rem",width: '88%',borderRadius:"10px"}}
-      onClick={(event) => event.preventDefault()}
-    >
+        component="a"
+        className={classes.link}
+        key={id}
+        style={{border: '0.7px solid #cbc6c6',marginTop:"0.5rem",width: '88%',borderRadius:"10px",}}
+        onClick={(event) => event.preventDefault()}
+        >
       {link.label}
     </Text>
+        </>
   ));
 
   return (

@@ -213,14 +213,14 @@ const displayAttachmentPDF = (s3Url: string) => {
       },
     }));
   
-     console.log("data",ticketData[0]);
+     console.log("data",ticketData[0]?.attachments[0]?.attachments[0]?.documentName);
       var mockdata = [
         { label: 'Document', 
         icon: IconLayoutDashboard,
         initiallyOpened: true,
         links: [
-          { label: `Document Name`, link: '/' },
-          { label: `summons`, link: '/' },
+          { label: ticketData[0]?.attachments[0]?.attachments[0]?.documentName||"Not Mentioned", link: 'Document Name*' },
+          { label: ticketData[0]?.attachments[0]?.attachments[0]?.documentType||"Not Mentioned", link: 'Type*' },
           
         ],
       },
@@ -229,12 +229,12 @@ const displayAttachmentPDF = (s3Url: string) => {
         icon: IconNotes,
         initiallyOpened: true,
         links: [
-          { label: `Person or Business`, link: '/' },
-          { label: `Bob's Plumbing Inc`, link: '/' },
-          { label: `CT Corporation`, link: '/' },
-          { label: `Bob's Plumbing Inc`, link: '/' },
-          { label: `CT Corporation`, link: '/' },
-          { label: `From Google Api`, link: '/' },
+          { label:  ticketData[0]?.jobs[0]?.serveeType||"Not Mentioned", link: 'Servee Type*' },
+          { label:  ticketData[0]?.jobs[0]?.serveeName||"Not Mentioned", link: 'Company Name' },
+          { label:ticketData[0]?.jobs[0]?.registeredAgent||"Not Mentioned", link: 'Registered Agent' },
+          { label: ticketData[0]?.jobs[0]?.attorneyName||"Not Mentioned", link: 'Name' },
+          { label: ticketData[0]?.jobs[0]?.serveeAddress||"Not Mentioned", link: 'Servee Address*' },
+          { label: ticketData[0]?.jobs[0]?.googlePlacesAddress||"Not Mentioned", link: 'Address Type' },
         ],
       },
       {
@@ -242,23 +242,23 @@ const displayAttachmentPDF = (s3Url: string) => {
         icon: IconFolderPlus,
         initiallyOpened: true,
         links: [
-          { label: `Case Number`, link: '/' },
-          { label: `John Doe`, link: '/' },
-          { label: `XYZ insurance`, link: '/' },
-          { label: `FL`, link: '/' },
-          { label: `Broward`, link: '/' },
-          { label: `Circuit`, link: '/' },  
-          { label: 'John Legal Esquire', link: '/' },
-          { label: 'May 8th,2023', link: '/' },
+          { label: ticketData[0]?.jobs[0]?.case?.caseNumber||"Not Mentioned", link: 'Case Number*' },
+          { label: ticketData[0]?.jobs[0]?.case?.plaintiff||"Not Mentioned", link: 'Plaintiff' },
+          { label: ticketData[0]?.jobs[0]?.case?.defendant||"Not Mentioned", link: 'Defendant*' },
+          { label:ticketData[0]?.jobs[0]?.case?.state||"Not Mentioned", link: 'State*' },
+          { label: ticketData[0]?.jobs[0]?.case?.county||"Not Mentioned", link: 'Country*' },
+          { label: ticketData[0]?.jobs[0]?.case?.courtType||"Not Mentioned", link: 'Court Type*' },  
+          { label: ticketData[0]?.jobs[0]?.attorneyName||"Not Mentioned", link: 'Attorney Name*' },
+          { label: ticketData[0]?.jobs[0]?.trialDepoOrActionDate||"Not Mentioned", link: 'Trial Number' },
         ],
       },
       { label: 'Client', icon: IconBriefcase2,
       initiallyOpened: true,
       links: [
-        { label: `Comapny`, link: '/' },
-        { label: `User`, link: '/' },
-        { label: `Reference`, link: '/' },
-        { label: `Yes`, link: '/' },
+        { label: ticketData[0]?.company?.operatingCompany||"Not Mentioned", link: 'Company*' },
+        { label: ticketData[0]?.user?.firstName||"Not Mentioned", link: 'User*' },
+        { label: ticketData[0]?.company?.phoneNumber||"Not Mentioned", link: 'Reference or Matter #' },
+        { label: ticketData[0]?.jobs[0]?.eFileReturnOfService?"Yes":"No"||"Not Mentioned", link: 'eFile Return of Service*' },
         
       ],
     },
@@ -269,9 +269,9 @@ const displayAttachmentPDF = (s3Url: string) => {
       icon: IconSettings,
       initiallyOpened: true,
       links: [
-        { label: `Standard`, link: '/' },
-        { label: `First Attempt Date`, link: '/' },
-        { label: `Special Instruction`, link: '/' },
+        { label: ticketData[0]?.jobs[0]?.serviceSpeed||"Not Mentioned", link: 'Service Speed*' },
+        { label:ticketData[0]?.jobs[0]?.firstAttemptBy||"Not Mentioned", link: 'First Attempt Date' },
+        { label: ticketData[0]?.jobs[0]?.case?.caseNumber||"Not Mentioned", link: 'Special Instructions' },
       ],
     },
   ];
@@ -545,7 +545,7 @@ const displayAttachmentPDF = (s3Url: string) => {
 
 
        <Paper style={{display:"flex",gap:"1rem",width:"95%",margin:"auto"}}>
-         <Paper style={{border:"1px solid black",width:"65%"}}>
+         <Paper style={{width:"65%"}}>
          <div>
       {/* Other components and content */}
       {ticketData?.length > 0 && (
@@ -567,7 +567,7 @@ const displayAttachmentPDF = (s3Url: string) => {
       )}
     </div>
          </Paper>
-         <Paper style={{border:"1px solid black",width:"35%"}}>
+         <Paper style={{width:"35%"}}>
           <AllDetailsComponent/>
    
     
