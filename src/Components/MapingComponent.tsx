@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
-import { Text, Grid, Paper, Button, Loader } from '@mantine/core';
+import { Text, Grid, Paper, Button, Loader, Select } from '@mantine/core';
+import {  Box, TextInput, ActionIcon } from '@mantine/core';
+import { IconAdjustments, IconSearch } from '@tabler/icons-react';
 import PaginationComponent from './Pagination';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
@@ -52,6 +54,7 @@ interface TicketAttachment {
 
 const  Mapingcomponent : React.FC=() => {
     const [data, setData] = useState<Ticket[]>([]); 
+    const [selectedPriority, setSelectedPriority] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -74,10 +77,23 @@ const  Mapingcomponent : React.FC=() => {
 
  
 
-console.log(data)
+console.log(selectedPriority)
 
 
+const ticketOptions = [
+  { value: 'high', label: 'High' },
+  { value: 'standard', label: 'Standard' },
+  { value: 'low', label: 'Low' },
+];
 
+const handlePriorityChange = (value: string) => {
+  setSelectedPriority(value);
+};
+
+const filteredTickets = selectedPriority
+    ? data.filter((ticket) => ticket.ticketPriority === selectedPriority)
+    : data;
+console.log(filteredTickets)
     // console.log(fetchingData.data);
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -97,6 +113,33 @@ console.log(data)
   );
   return (
     <div style={{ padding: '20px', width: '100%' }}>
+        <Paper  style={{ display: 'flex',padding:"1rem",paddingTop:"0.5rem",textAlign:"center" }}>
+      <Text size="md" style={{ color: 'grey',textDecoration:"underline" }}>
+        Job /{' '}
+      </Text>
+      <Text size="md" style={{ display: 'inline', paddingLeft: '6px' }}>
+        Tickets to Confirm
+      </Text>
+    </Paper>
+
+    <Box style={{display:"flex",justifyContent:"space-between",alignItems: 'center',padding:"1rem"}} >
+    <Text size="xl" style={{paddingLeft: '6px' }}>
+        Tickets to Confirm
+      </Text>
+
+      <TextInput
+      radius="sm"
+      size=''
+      rightSection={
+        <ActionIcon  radius="xl" color={"grey"} variant="grey">
+            <IconSearch size="1.1rem" stroke={2.5} color='orange' />
+            <IconAdjustments size="1.1rem" stroke={2.5} color='orange'style={{marginLeft:'0.2rem'}} />
+        </ActionIcon>
+      }
+      placeholder=" Search..."
+      rightSectionWidth={80} 
+    />
+    </Box>
       <Grid
         style={{
           display: 'grid',
@@ -146,9 +189,13 @@ console.log(data)
         </Paper>
 
         <Paper style={{padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
-          <Text size="sm" align="center">
-            Priority
-          </Text>
+        <Select
+        style={{color:"black"}}
+        data={ticketOptions}
+        placeholder="Select ticket priority"
+        value={selectedPriority}
+        onChange={handlePriorityChange}
+      />
         </Paper>
 
         <Paper style={{padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
@@ -172,7 +219,7 @@ console.log(data)
       {
         data?.length > 0 ? (
             <>
-       {data?.map((ticket) => (
+       {filteredTickets?.map((ticket) => (
         <Grid
           key={ticket.id}
           style={{
@@ -290,10 +337,6 @@ console.log(data)
            </div>
         )
       }
-
-
-
-
 
       <PaginationComponent 
    currentPage={currentPage}

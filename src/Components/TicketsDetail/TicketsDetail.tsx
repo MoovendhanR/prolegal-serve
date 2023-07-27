@@ -1,5 +1,5 @@
 import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput, Box } from '@mantine/core';
-import { IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
+import { IconAlignRight, IconCheck, IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
 import axios from "axios";
@@ -548,6 +548,8 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
          </Paper>
          <Paper style={{width:"35%"}}>
           <AllDetailsComponent/>  
+          <Button style={{backgroundColor:"#5A4730",width:"82%",borderRadius:"10px",marginLeft:'1.4rem',padding:"0.1rem"}}> <IconCheck style={{marginRight:"0.9rem"}}/> Assign Server</Button>
+
          </Paper>
        </Paper>
     </>

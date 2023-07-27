@@ -7,6 +7,7 @@ import {
   UnstyledButton,
   createStyles,
   rem,
+  
 } from '@mantine/core';
 import { IconCalendarStats, IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
@@ -126,6 +127,7 @@ export function NavbarLinksGroup() {
       })}
     >
       <LinksGroupsData {...mockdata} />
+
     </Box>
   );
 }
