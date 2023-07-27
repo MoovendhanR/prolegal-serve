@@ -81,6 +81,22 @@ const  Mapingcomponent : React.FC=() => {
 console.log(searchQuery)
 
 
+const [currentPage, setCurrentPage] = useState(1);
+
+//   const allItems = [...Array(20)].map((_, index) => `Item ${index + 1}`);
+const allItems = data;
+
+
+const totalPages = Math.ceil(allItems.length / ITEMS_PER_PAGE);
+
+const handlePageChange = (page: number) => {
+setCurrentPage(page);
+};
+
+const itemsOnCurrentPage = allItems.slice(
+(currentPage - 1) * ITEMS_PER_PAGE,
+currentPage * ITEMS_PER_PAGE
+);
 const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
   setSearchQuery(event.currentTarget.value);
 };
@@ -99,8 +115,8 @@ const handlePriorityChange = (value: string) => {
 };
 
 const filteredTickets = selectedPriority
-    ? data.filter((ticket) => ticket.ticketPriority === selectedPriority)
-    : data;
+    ? itemsOnCurrentPage.filter((ticket) => ticket.ticketPriority === selectedPriority)
+    : itemsOnCurrentPage;
 
 // const filteredTickets = data.filter((ticket) => {
 //   const priorityMatch = !selectedPriority || ticket.ticketPriority === selectedPriority;
@@ -112,22 +128,6 @@ const filteredTickets = selectedPriority
 
 console.log(filteredTickets)
     // console.log(fetchingData.data);
-    const [currentPage, setCurrentPage] = useState(1);
-
-//   const allItems = [...Array(20)].map((_, index) => `Item ${index + 1}`);
-  const allItems = data;
-
-
-  const totalPages = Math.ceil(allItems.length / ITEMS_PER_PAGE);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const itemsOnCurrentPage = allItems.slice(
-    (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
-  );
   return (
     <div style={{ padding: '20px', width: '100%' }}>
         <Paper  style={{ display: 'flex',padding:"1rem",paddingTop:"0.5rem",textAlign:"center" }}>
@@ -209,9 +209,11 @@ console.log(filteredTickets)
 
         <Paper style={{padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
         <Select
-        style={{color:"black"}}
+        style={{color:"black",border:"none"}}
         data={ticketOptions}
-        placeholder="priority"
+
+
+        placeholder=" priority"
         value={selectedPriority}
         onChange={handlePriorityChange}
       />
@@ -304,12 +306,13 @@ console.log(filteredTickets)
             alignItems: "center",
             // width: "50%",
             // height:"50%",
+        
             margin:"auto",
-            fontSize:"12px",
-
+            fontSize:"16px",
+            border:"none",
             padding:"0.5rem",textAlign:'center',
-            background: ticket.ticketPriority === 'high' ? 'red' : ticket.ticketPriority === 'low' ? 'green' : 'orange',
-            color: ticket.ticketPriority === 'high' || ticket.ticketPriority === 'low' ? 'white' : 'black',
+            background: ticket.ticketPriority === 'high' ? '#FAE4E4' : ticket.ticketPriority === 'low' ? '#EAFAE4' : '#FAF1E4',
+            color: ticket.ticketPriority === 'high' ? '#BF6E6E' : ticket.ticketPriority === 'low' ? '#83BF6E' : '#BF9E6E',
           }}
           >{ticket?.ticketPriority}</Paper>
           <Paper style={{

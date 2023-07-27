@@ -1,7 +1,7 @@
 import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput, Box } from '@mantine/core';
 import { IconAlignRight, IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck, IconEyeFilled, IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
-import {useParams} from "react-router-dom"
+import {Link, useParams} from "react-router-dom"
 import axios from "axios";
 import TabComponent from './TabData';
 import { Navbar, Group, ScrollArea, createStyles, rem } from '@mantine/core';
@@ -133,7 +133,7 @@ interface Attachment {
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [dropdownOpened, setDropdownOpened] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
-
+  console.log(ticketData,"d")
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -146,7 +146,6 @@ interface Attachment {
         const response = await axios.get<{ data: TicketData[] }>(apiEndpoint,{headers});
         setTicketData(response.data?.data);
         setJobdata(response.data?.data[0]?.jobs);
-        console.log(response.data?.data[0].jobs,"jobs data from response")
       } catch (error) {
         setError('Error fetching ticket details.');
       }
@@ -156,7 +155,6 @@ interface Attachment {
   }, [ticketId]);
 
 
-  console.log(selectedId)
       
   const handleClick=(id:number) => {
     setSelectedId(id)
@@ -322,9 +320,11 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
   return (
     <>
 <Paper  style={{ display: 'flex',justifyContent:"space-evenly" ,padding:"1rem",textAlign:"center" }}>
+   
       <Text size="md" style={{ color: '#00d084' }}>
        Job Detail
       </Text>
+    
       <Text size="md" style={{ paddingLeft: '6px' }}>
       Server Detail
       </Text>
@@ -334,9 +334,11 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
  </Paper>
 
  <Paper  style={{ display: 'flex',padding:"1rem",textAlign:"center" }}>
+      <Link  to={`/`}> 
       <Text size="md" style={{ color: 'grey',textDecoration:"underline" }}>
-        Job /{' '}
+         Job /{' '}
       </Text>
+         </Link>
       <Text size="md" style={{ color: 'grey',textDecoration:"underline",paddingLeft: '6px' }}>
         Jobs to Confirm /{' '}
       </Text>
@@ -547,8 +549,10 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
             {/* Display other attachment details */}
             {displayAttachmentPDF(ticketData[0]?.attachments[selectedId?selectedId:0]?.s3Url)}
           </div>
-          
-        </div>
+          <br/>
+          <div
+      dangerouslySetInnerHTML={{__html: ticketData[0]?.ticketComment}}
+    />        </div>
       )}
 
       {/* Display error notification if there's an error */}
