@@ -1,4 +1,4 @@
-import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput } from '@mantine/core';
+import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput, Box } from '@mantine/core';
 import { IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
@@ -377,8 +377,8 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
 
 
 
-    <Paper style={{display:"flex",justifyContent:"space-between",width:"95%",height:"270px",margin:"auto",gap:"1rem"}}>
-       <Paper style={{flex:"1",border:"1px solid gray"}}>
+    <Paper style={{display:"flex",justifyContent:"space-between",width:"85%",height:"270px",margin:"auto",gap:"1rem"}}>
+       <Paper style={{flex:"1",width:"4%",border:"1px solid gray"}}>
            <Paper style={{display:"flex",justifyContent:"space-between",padding:"1rem"}}>
             <Text style={{padding:"0.7rem",fontSize:"19px"}}>
                 Documents In Request
@@ -390,15 +390,14 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
        
         </Paper>
         {/* display data */}
-         <Grid
+         <Box
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(4, 1fr)',
-          padding:"0.1rem",
-          textAlign:"center",
-          marginLeft:"4.5rem",
-          justifyContent:"space-even",
+          gap:"1rem",
+          width:"70%",
           alignItems: 'center',
+          margin:"auto",
         }}
       >
          <Paper style={{textAlign:'center',color:"#9D733F",width:"25%"}}>
@@ -419,46 +418,71 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
             UsedIn
           </Text>
         </Paper>
-        </Grid>
+        </Box>
         {/* maping data */}
        
-
-
-
-
 {
       ticketData?.length > 0 ? (
             <>
        <div>
           <div key={ticketData[0]?.id}>
             {ticketData[0]?.attachments?.length > 0 && (
-              <Paper  shadow="sm">
-                <Grid columns={4}style={{
-                  display: 'grid',
-                  padding:"1.5rem",
-                  gridTemplateRows: 'repeat(4, 1fr)',
-                  boxShadow:"none"
-                  }}>
+              <Paper  >
+                
                   {ticketData[0]?.attachments?.map((attachment) => (
-                    <Paper key={attachment?.id}  shadow="sm" style={{ textAlign: 'center',display:"flex",justifyContent: 'space-evenly',boxShadow:"none"}}>
-                      <Avatar size="sm" style={{width:"24%", boxShadow:"none",backgroundColor:"none"}}onClick={() => handleClick(attachment.id)}>
+                    <Box key={attachment?.id} style={{ 
+                      width:"70%",
+                      marginLeft:"4rem",
+                      display:"flex",
+                      justifyContent:"space-evenly",
+                      gap:"1.5rem",
+                      alignItems:"center",
+                      boxShadow:"none",
+                     }}>
+                       <Avatar size="sm" 
+                       style={{
+                        width:"25%", 
+                        boxShadow:"none",
+                        padding:"0.1rem",
+
+                        }} onClick={() => handleClick(attachment.id)}>
                         <IconGripVertical/>
                         <IconEyeFilled color="grey"/></Avatar>
-                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",
-                      width:"24%", boxShadow:"none",
-                       whiteSpace: "nowrap",
+                         <Paper style={{
+                          padding:"0.1rem",
+                          width:"25%",
+                          
+                          }}>
+                         <Text size="l"  style={{
+                          textAlign:"center",
+                        padding:"0.1rem",
+                          whiteSpace: "nowrap",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                         }}>
+                         {attachment?.attachments[0]?.documentName}
+                       </Text>
+                       </Paper>
+                       
+                        <Paper style={{padding:"0.1rem",textAlign:'center',width:"25%"}}>
+                        <Text size="l"  style={{
+                          whiteSpace: "nowrap",
                        overflow: "hidden",
-                       textOverflow: "ellipsis",
-                    }}>{attachment?.attachments[0]?.documentName}</Text>
-                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",width:"24%", boxShadow:"none",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}>{attachment?.attachments[0]?.documentType}</Text>
-                      <Text style={{padding:"0.5rem",textAlign:'center',fontSize:"10px",width:"24%", boxShadow:"none"}}>{attachment?.attachments[0]?.noOfPages}</Text>
-                    </Paper>
+                       textOverflow: "ellipsis",}}>
+                       { attachment?.attachments[0]?.documentType}
+                       </Text>
+                      </Paper>
+
+                      <Paper style={{padding:"0.1rem",textAlign:'center',width:"25%"}}>
+                        <Text size="l" style={{textAlign:'center'}}>
+                        {attachment?.attachments[0]?.noOfPages}
+                       </Text>
+                       </Paper>
+                    </Box>
+                     
+                      
                   ))}
-                </Grid>
+              
               </Paper>
             )}
           </div>
@@ -480,7 +504,7 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
        </Paper>
 
 
-       <Paper style={{flex:"1",border:"1px solid gray",width:"40%"}}>
+       <Paper style={{flex:"1",border:"1px solid gray",width:"47%"}}>
        <Paper style={{display:"flex",justifyContent:"space-between",padding:"1rem"}}>
             <Text style={{padding:"0.7rem",fontSize:"19px"}}>
                 Documents to Serve
