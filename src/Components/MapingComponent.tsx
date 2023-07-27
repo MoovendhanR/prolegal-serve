@@ -55,6 +55,7 @@ interface TicketAttachment {
 const  Mapingcomponent : React.FC=() => {
     const [data, setData] = useState<Ticket[]>([]); 
     const [selectedPriority, setSelectedPriority] = useState<string>('');
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -77,7 +78,13 @@ const  Mapingcomponent : React.FC=() => {
 
  
 
-console.log(selectedPriority)
+console.log(searchQuery)
+
+
+const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  setSearchQuery(event.currentTarget.value);
+};
+
 
 
 const ticketOptions = [
@@ -86,6 +93,7 @@ const ticketOptions = [
   { value: 'low', label: 'Low' },
 ];
 
+
 const handlePriorityChange = (value: string) => {
   setSelectedPriority(value);
 };
@@ -93,6 +101,15 @@ const handlePriorityChange = (value: string) => {
 const filteredTickets = selectedPriority
     ? data.filter((ticket) => ticket.ticketPriority === selectedPriority)
     : data;
+
+// const filteredTickets = data.filter((ticket) => {
+//   const priorityMatch = !selectedPriority || ticket.ticketPriority === selectedPriority;
+//   const searchMatch = !searchQuery || ticket.ticketPriority.toLowerCase().includes(searchQuery.toLowerCase());
+
+//   return priorityMatch && searchMatch;
+// });
+
+
 console.log(filteredTickets)
     // console.log(fetchingData.data);
     const [currentPage, setCurrentPage] = useState(1);
@@ -136,6 +153,8 @@ console.log(filteredTickets)
             <IconAdjustments size="1.1rem" stroke={2.5} color='orange'style={{marginLeft:'0.2rem'}} />
         </ActionIcon>
       }
+      // value={searchQuery}
+      // onChange={handleSearchQueryChange}
       placeholder=" Search..."
       rightSectionWidth={80} 
     />
@@ -192,7 +211,7 @@ console.log(filteredTickets)
         <Select
         style={{color:"black"}}
         data={ticketOptions}
-        placeholder="Select ticket priority"
+        placeholder="priority"
         value={selectedPriority}
         onChange={handlePriorityChange}
       />

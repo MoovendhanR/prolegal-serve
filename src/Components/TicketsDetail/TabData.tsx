@@ -100,11 +100,9 @@ function  TabComponent({jobdata}:JobData) {
   // ];
   const [tabsData,setDabsData] = useState(jobdata)
     
-  console.log(jobdata,"tabsdata")
   useEffect(()=>{
      setDabsData(jobdata)
   },[jobdata])
-  console.log(tabsData)
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -135,30 +133,35 @@ function  TabComponent({jobdata}:JobData) {
         </Paper>
         <Paper style={{display:"flex",gap:"0.5rem",alignItems:'center' }}>
 
-        <Text style={{display:"flex",color:"#b0aba5",width:"25%"}}>
-          <IconGripVertical/>
-          <IconEye/>
-          <IconNotes/>
-        </Text>
+       
         <Text style={{padding:"0.5rem",textAlign:'center',
+                     marginLeft:"2rem",
                       display:"flex",
-                       width:"70%",
+                      justifyContent:"space-evenly",
+                      alignItems:'center',
+                       width:"80%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
                     }}>
                       {tabsData[activeTab]?.attachments?.map((tab)=>(
                        <>
+                        <Text style={{display:"flex",color:"#b0aba5",width:"30%",cursor:"pointer"}}>
+                      <IconGripVertical/>
+                      <IconEye/>
+                      <IconNotes/>
+                      </Text>
                        <Text  
                        style={{padding:"0.5rem",textAlign:'center',
-                       width:"50%",
+                       width:"40%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",
                     }} >{tab?.documentName}</Text>
                         <Text  
                       style={{padding:"0.5rem",textAlign:'center',
-                       width:"50%",
+                      marginLeft:"1rem",
+                       width:"40%",
                        whiteSpace: "nowrap",
                        overflow: "hidden",
                        textOverflow: "ellipsis",

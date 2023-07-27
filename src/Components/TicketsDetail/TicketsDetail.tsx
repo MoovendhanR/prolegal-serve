@@ -1,5 +1,5 @@
 import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput, Box } from '@mantine/core';
-import { IconAlignRight, IconCheck, IconChevronDown, IconChevronLeft, IconEyeCheck, IconEyeFilled, IconGripVertical, IconNotes, IconPlus } from '@tabler/icons-react';
+import { IconAlignRight, IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck, IconEyeFilled, IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {useParams} from "react-router-dom"
 import axios from "axios";
@@ -13,6 +13,7 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 import { LinksGroupsData } from './LinkGroupsData';
+import { IconEyeClosed } from '@tabler/icons-react';
 interface Attachment {
     id: number;
     s3Url: string;
@@ -125,6 +126,8 @@ interface Attachment {
   const TicketDetails: React.FC = () => {
   const [ticketData, setTicketData] = useState<TicketData[]>([]);
   const [jobdata,setJobdata] = useState<any>([]);
+  const [isOpened, setIsOpened] = useState(true);
+
     const { ticketId } = useParams<{ ticketId: string }>();
     const [numPages, setNumPages] = useState<number >(2);
     const [pageNumber, setPageNumber] = useState<number>(1);
@@ -157,9 +160,13 @@ interface Attachment {
       
   const handleClick=(id:number) => {
     setSelectedId(id)
+    
   }
-
-
+  
+  const handleToggle=()=>{
+    setIsOpened((prevIsOpened) => !prevIsOpened);
+    
+}
 
 // pdf format
 const displayAttachmentPDF = (s3Url: string) => {
@@ -444,10 +451,16 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
                         width:"25%", 
                         boxShadow:"none",
                         padding:"0.1rem",
-
+                        cursor:"pointer"
                         }} onClick={() => handleClick(attachment.id)}>
-                        <IconGripVertical/>
-                        <IconEyeFilled color="grey"/></Avatar>
+                        <IconGripVertical color="#CDAC82"/>
+                        {/* <IconEyeCheck color="#CDAC82"/> */}
+                        <Box onClick={()=>handleToggle}>
+
+                        {isOpened ? < IconEye color="#CDAC82"/> : <IconEyeClosed color="#CDAC82"/>}
+                        </Box>
+
+                        </Avatar>
                          <Paper style={{
                           padding:"0.1rem",
                           width:"25%",
@@ -552,6 +565,19 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
 
          </Paper>
        </Paper>
+
+
+
+       <Box style={{width:"95%",border:"1px solid #CDAC82",margin:"auto",display:"flex",borderRadius:"10px",backgroundColor:"#F6F1E9",marginTop:"1rem"}}>
+              <Text style={{width:"70%",margin:"auto",color:"grey",display:"flex",alignItems:"center",marginLeft:"2rem"}}>
+               <IconMessage2 style={{color:"#CDAC82"}}/>
+                <span  style={{marginLeft:"1rem",color:"black",marginRight:"0.5rem"}}>Personal {jobdata[0]?.attachments[0]?.documentName }</span> is not assigned to any job,please confirm or click cancel to go back and edit the job.
+              </Text>
+              <Paper style={{width:"30%"}}>
+                <Button style={{width:"47%",backgroundColor:"#5A4730",borderRadius:"10px",marginLeft:'0.1rem',padding:"0.1rem"}}>Cancel</Button>
+                <Button style={{width:"47%",borderRadius:"10px",padding:"0.1rem",backgroundColor:"white",color:"black",border:"1px solid #CDAC82",marginLeft:"0.5rem"}}>Confirm</Button>
+              </Paper>
+       </Box>
     </>
   );
 };
