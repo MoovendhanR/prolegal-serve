@@ -1,10 +1,10 @@
-import { Avatar, Grid, Loader, Notification, Paper, Text, Menu, Button, Select, TextInput, Box } from '@mantine/core';
-import { IconAlignRight, IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck, IconEyeFilled, IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
+import { Avatar,  Loader, Notification, Paper, Text, Button, Box } from '@mantine/core';
+import { IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck,  IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {Link, useParams} from "react-router-dom"
 import axios from "axios";
 import TabComponent from './TabData';
-import { Navbar, Group, ScrollArea, createStyles, rem } from '@mantine/core';
+import { Navbar, ScrollArea, createStyles, rem } from '@mantine/core';
 import {
 
   IconFolderPlus,
@@ -126,14 +126,14 @@ interface Attachment {
   const TicketDetails: React.FC = () => {
   const [ticketData, setTicketData] = useState<TicketData[]>([]);
   const [jobdata,setJobdata] = useState<any>([]);
-  const [isOpened, setIsOpened] = useState(true);
+  const [visibleTicketId, setVisibleTicketId] = useState<number | null>(null);
 
     const { ticketId } = useParams<{ ticketId: string }>();
-    const [numPages, setNumPages] = useState<number >(2);
-    const [pageNumber, setPageNumber] = useState<number>(1);
-    const [dropdownOpened, setDropdownOpened] = useState(false);
+    // const [numPages, setNumPages] = useState<number >(2);
+    // const [pageNumber, setPageNumber] = useState<number>(1);
+    // const [dropdownOpened, setDropdownOpened] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
-  console.log(ticketData,"d")
+  // console.log(ticketData,"d")
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -158,13 +158,15 @@ interface Attachment {
       
   const handleClick=(id:number) => {
     setSelectedId(id)
+    if (visibleTicketId === id) {
+      setVisibleTicketId(null);
+    } else {
+      setVisibleTicketId(id);
+    }
     
   }
   
-  const handleToggle=()=>{
-    setIsOpened((prevIsOpened) => !prevIsOpened);
-    
-}
+  
 
 // pdf format
 const displayAttachmentPDF = (s3Url: string) => {
@@ -304,17 +306,17 @@ const displayAttachmentPDF = (s3Url: string) => {
 }
 
 
-const appendDocumentType = (documentName: string, documentType: string, isPrimary: boolean) => {
-  if (!isPrimary) {
-      return `${documentName} - ${documentType}`;
-    }
-    return documentName;
-  };
+// const appendDocumentType = (documentName: string, documentType: string, isPrimary: boolean) => {
+//   if (!isPrimary) {
+//       return `${documentName} - ${documentType}`;
+//     }
+//     return documentName;
+//   };
 
   // Helper function to display noOfPages in Used in Jobs column
-  const displayNoOfPages = (noOfPages: number | undefined) => {
-    return noOfPages || '-';
-  };
+  // const displayNoOfPages = (noOfPages: number | undefined) => {
+  //   return noOfPages || '-';
+  // };
 
 
   return (
@@ -457,9 +459,9 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
                         }} onClick={() => handleClick(attachment.id)}>
                         <IconGripVertical color="#CDAC82"/>
                         {/* <IconEyeCheck color="#CDAC82"/> */}
-                        <Box onClick={()=>handleToggle}>
+                        <Box >
 
-                        {isOpened ? < IconEye color="#CDAC82"/> : <IconEyeClosed color="#CDAC82"/>}
+                        {visibleTicketId === attachment.id ? < IconEye color="#CDAC82" /> : <IconEyeClosed color="#CDAC82" />}
                         </Box>
 
                         </Avatar>
@@ -549,7 +551,7 @@ const appendDocumentType = (documentName: string, documentType: string, isPrimar
             {/* Display other attachment details */}
             {displayAttachmentPDF(ticketData[0]?.attachments[selectedId?selectedId:0]?.s3Url)}
           </div>
-          <br/>
+          
           <div
       dangerouslySetInnerHTML={{__html: ticketData[0]?.ticketComment}}
     />        </div>

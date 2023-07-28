@@ -55,7 +55,7 @@ interface TicketAttachment {
 const  Mapingcomponent : React.FC=() => {
     const [data, setData] = useState<Ticket[]>([]); 
     const [selectedPriority, setSelectedPriority] = useState<string>('');
-    const [searchQuery, setSearchQuery] = useState<string>('');
+    // const [searchQuery, setSearchQuery] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -78,7 +78,7 @@ const  Mapingcomponent : React.FC=() => {
 
  
 
-console.log(searchQuery)
+// console.log(searchQuery)
 
 
 const [currentPage, setCurrentPage] = useState(1);
@@ -97,9 +97,9 @@ const itemsOnCurrentPage = allItems.slice(
 (currentPage - 1) * ITEMS_PER_PAGE,
 currentPage * ITEMS_PER_PAGE
 );
-const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  setSearchQuery(event.currentTarget.value);
-};
+// const handleSearchQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//   setSearchQuery(event.currentTarget.value);
+// };
 
 
 
@@ -126,7 +126,7 @@ const filteredTickets = selectedPriority
 // });
 
 
-console.log(filteredTickets)
+// console.log(filteredTickets)
     // console.log(fetchingData.data);
   return (
     <div style={{ padding: '20px', width: '100%' }}>
