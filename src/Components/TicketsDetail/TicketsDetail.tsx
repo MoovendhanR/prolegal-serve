@@ -1,5 +1,5 @@
 import { Avatar,  Loader, Notification, Paper, Text, Button, Box } from '@mantine/core';
-import { IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck,  IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
+import {  IconCheck, IconChevronDown, IconChevronLeft, IconEye, IconEyeCheck,  IconGripVertical, IconMessage2, IconNotes, IconPlus } from '@tabler/icons-react';
 import React, { useEffect, useState } from 'react';
 import {Link, useParams} from "react-router-dom"
 import axios from "axios";
@@ -14,6 +14,7 @@ import {
 } from '@tabler/icons-react';
 import { LinksGroupsData } from './LinkGroupsData';
 import { IconEyeClosed } from '@tabler/icons-react';
+import ConfirmJob from './ConfirmJob';
 interface Attachment {
     id: number;
     s3Url: string;
@@ -127,13 +128,12 @@ interface Attachment {
   const [ticketData, setTicketData] = useState<TicketData[]>([]);
   const [jobdata,setJobdata] = useState<any>([]);
   const [visibleTicketId, setVisibleTicketId] = useState<number | null>(null);
+   const [servicespeed, setServicespeed] = useState<any>("");
 
     const { ticketId } = useParams<{ ticketId: string }>();
-    // const [numPages, setNumPages] = useState<number >(2);
     // const [pageNumber, setPageNumber] = useState<number>(1);
     // const [dropdownOpened, setDropdownOpened] = useState(false);
     const [selectedId, setSelectedId] = useState<number | null>(null);
-  // console.log(ticketData,"d")
   const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     const fetchData = async () => {
@@ -146,6 +146,8 @@ interface Attachment {
         const response = await axios.get<{ data: TicketData[] }>(apiEndpoint,{headers});
         setTicketData(response.data?.data);
         setJobdata(response.data?.data[0]?.jobs);
+        setServicespeed(response.data?.data[0].jobs[0].serviceSpeed);
+        console.log(response.data?.data[0].jobs[0].serviceSpeed)
       } catch (error) {
         setError('Error fetching ticket details.');
       }
@@ -158,6 +160,7 @@ interface Attachment {
       
   const handleClick=(id:number) => {
     setSelectedId(id)
+   
     if (visibleTicketId === id) {
       setVisibleTicketId(null);
     } else {
@@ -230,7 +233,6 @@ const displayAttachmentPDF = (s3Url: string) => {
       },
     }));
   
-     console.log("data",ticketData[0]?.attachments[0]?.attachments[0]?.documentName);
       var mockdata = [
         { label: 'Document', 
         icon: IconLayoutDashboard,
@@ -317,6 +319,15 @@ const displayAttachmentPDF = (s3Url: string) => {
   // const displayNoOfPages = (noOfPages: number | undefined) => {
   //   return noOfPages || '-';
   // };
+
+  // assign job server
+
+ 
+  const handleButtonClick = () => {
+    setShowFunctionalComponent(true);
+  };
+
+  const [showFunctionalComponent, setShowFunctionalComponent] = useState(false);
 
 
   return (
@@ -445,7 +456,7 @@ const displayAttachmentPDF = (s3Url: string) => {
                       width:"70%",
                       marginLeft:"4rem",
                       display:"flex",
-                      justifyContent:"space-evenly",
+                      justifyContent:"center",
                       gap:"1.5rem",
                       alignItems:"center",
                       boxShadow:"none",
@@ -457,11 +468,11 @@ const displayAttachmentPDF = (s3Url: string) => {
                         padding:"0.1rem",
                         cursor:"pointer"
                         }} onClick={() => handleClick(attachment.id)}>
-                        <IconGripVertical color="#CDAC82"/>
+                        {visibleTicketId === attachment.id ?<IconGripVertical color="#cdac82"/>:<IconGripVertical color="#aca9a4"/>}
                         {/* <IconEyeCheck color="#CDAC82"/> */}
                         <Box >
 
-                        {visibleTicketId === attachment.id ? < IconEye color="#CDAC82" /> : <IconEyeClosed color="#CDAC82" />}
+                        {visibleTicketId === attachment.id ? < IconEye color="#CDAC82" /> : <IconEyeClosed color="#D9D9D9" />}
                         </Box>
 
                         </Avatar>
@@ -567,13 +578,13 @@ const displayAttachmentPDF = (s3Url: string) => {
          </Paper>
          <Paper style={{width:"35%"}}>
           <AllDetailsComponent/>  
-          <Button style={{backgroundColor:"#5A4730",width:"82%",borderRadius:"10px",marginLeft:'1.4rem',padding:"0.1rem"}}> <IconCheck style={{marginRight:"0.9rem"}}/> Assign Server</Button>
-
          </Paper>
        </Paper>
 
-
-
+       <Box style={{width: '30%',  marginLeft: 'auto',marginRight:"1.7rem"}}>
+      <br />
+      <Button style={{borderRadius:"10px",backgroundColor:"#5A4730",padding:"0.5rem",width:"82%"}}  onClick={handleButtonClick} disabled={!ticketData}> <IconCheck style={{marginRight:"0.9rem"}} /> Assign Server</Button>
+      </Box>
        <Box style={{width:"95%",border:"1px solid #CDAC82",margin:"auto",display:"flex",borderRadius:"10px",backgroundColor:"#F6F1E9",marginTop:"1rem"}}>
               <Text style={{width:"70%",margin:"auto",color:"grey",display:"flex",alignItems:"center",marginLeft:"2rem"}}>
                <IconMessage2 style={{color:"#CDAC82"}}/>
@@ -584,6 +595,14 @@ const displayAttachmentPDF = (s3Url: string) => {
                 <Button style={{width:"47%",borderRadius:"10px",padding:"0.1rem",backgroundColor:"white",color:"black",border:"1px solid #CDAC82",marginLeft:"0.5rem"}}>Confirm</Button>
               </Paper>
        </Box>
+
+
+        <div>
+
+      {showFunctionalComponent && <ConfirmJob selectedValue={servicespeed} />}
+    </div>
+
+
     </>
   );
 };

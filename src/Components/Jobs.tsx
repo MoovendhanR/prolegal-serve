@@ -5,7 +5,6 @@ import Mapingcomponent from './MapingComponent';
 const Jobs = () => {
   return (
     <>
-    
     <Mapingcomponent/>
     </>
   )
