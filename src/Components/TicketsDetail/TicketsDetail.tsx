@@ -129,7 +129,8 @@ interface Attachment {
   const [jobdata,setJobdata] = useState<any>([]);
   const [visibleTicketId, setVisibleTicketId] = useState<number | null>(null);
    const [servicespeed, setServicespeed] = useState<any>("");
-
+   const [isVisible, setIsVisible] = useState(true);
+   const [isVisibleaforssign, setIsVisibleAssign] = useState(true);
     const { ticketId } = useParams<{ ticketId: string }>();
     // const [pageNumber, setPageNumber] = useState<number>(1);
     // const [dropdownOpened, setDropdownOpened] = useState(false);
@@ -147,7 +148,7 @@ interface Attachment {
         setTicketData(response.data?.data);
         setJobdata(response.data?.data[0]?.jobs);
         setServicespeed(response.data?.data[0].jobs[0].serviceSpeed);
-        console.log(response.data?.data[0].jobs[0].serviceSpeed)
+        // console.log(response.data?.data[0].jobs[0].serviceSpeed)
       } catch (error) {
         setError('Error fetching ticket details.');
       }
@@ -325,8 +326,13 @@ const displayAttachmentPDF = (s3Url: string) => {
  
   const handleButtonClick = () => {
     setShowFunctionalComponent(true);
+    setIsVisible(false);
+    setIsVisibleAssign(false)
   };
+ const handleCancel =()=>{
+  setIsVisible(false);
 
+ }
   const [showFunctionalComponent, setShowFunctionalComponent] = useState(false);
 
 
@@ -415,10 +421,10 @@ const displayAttachmentPDF = (s3Url: string) => {
          <Box
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(4, 1fr)',
+           gridTemplateColumns: '1fr 1fr 1fr 1fr', // Fixed column widths
+          alignItems: 'center',
           gap:"1rem",
           width:"70%",
-          alignItems: 'center',
           margin:"auto",
         }}
       >
@@ -453,10 +459,10 @@ const displayAttachmentPDF = (s3Url: string) => {
                 
                   {ticketData[0]?.attachments?.map((attachment) => (
                     <Box key={attachment?.id} style={{ 
-                      width:"70%",
-                      marginLeft:"4rem",
                       display:"flex",
                       justifyContent:"center",
+                      width:"70%",
+                      marginLeft:"4rem",
                       gap:"1.5rem",
                       alignItems:"center",
                       boxShadow:"none",
@@ -581,21 +587,21 @@ const displayAttachmentPDF = (s3Url: string) => {
          </Paper>
        </Paper>
 
-       <Box style={{width: '30%',  marginLeft: 'auto',marginRight:"1.7rem"}}>
+      {isVisibleaforssign && <Box style={{width: '30%',  marginLeft: 'auto',marginRight:"1.7rem"}}>
       <br />
       <Button style={{borderRadius:"10px",backgroundColor:"#5A4730",padding:"0.5rem",width:"82%"}}  onClick={handleButtonClick} disabled={!ticketData}> <IconCheck style={{marginRight:"0.9rem"}} /> Assign Server</Button>
-      </Box>
-       <Box style={{width:"95%",border:"1px solid #CDAC82",margin:"auto",display:"flex",borderRadius:"10px",backgroundColor:"#F6F1E9",marginTop:"1rem"}}>
+      </Box>}
+      { isVisible && <Box style={{width:"95%",border:"1px solid #CDAC82",margin:"auto",display:"flex",borderRadius:"10px",backgroundColor:"#F6F1E9",marginTop:"1rem"}}>
               <Text style={{width:"70%",margin:"auto",color:"grey",display:"flex",alignItems:"center",marginLeft:"2rem"}}>
                <IconMessage2 style={{color:"#CDAC82"}}/>
                 <span  style={{marginLeft:"1rem",color:"black",marginRight:"0.5rem"}}>Personal {jobdata[0]?.attachments[0]?.documentName }</span> is not assigned to any job,please confirm or click cancel to go back and edit the job.
               </Text>
               <Paper style={{width:"30%"}}>
-                <Button style={{width:"47%",backgroundColor:"#5A4730",borderRadius:"10px",marginLeft:'0.1rem',padding:"0.1rem"}}>Cancel</Button>
-                <Button style={{width:"47%",borderRadius:"10px",padding:"0.1rem",backgroundColor:"white",color:"black",border:"1px solid #CDAC82",marginLeft:"0.5rem"}}>Confirm</Button>
+                <Button style={{width:"47%",backgroundColor:"#5A4730",borderRadius:"10px",marginLeft:'0.1rem',padding:"0.1rem"}} onClick={handleCancel}>Cancel</Button>
+                <Button style={{width:"47%",borderRadius:"10px",padding:"0.1rem",backgroundColor:"white",color:"black",border:"1px solid #CDAC82",marginLeft:"0.5rem"}} onClick={handleCancel}>Confirm</Button>
               </Paper>
        </Box>
-
+      }
 
         <div>
 
