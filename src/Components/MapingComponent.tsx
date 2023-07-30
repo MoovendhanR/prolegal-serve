@@ -248,8 +248,13 @@ const filteredTickets = selectedPriority
             gridTemplateColumns: 'repeat(10, 1fr)',
             gap: '8px',
             marginTop: '1rem',
-            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
+            boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px",
+            cursor: 'pointer',
+            border: '1px solid transparent',
+            transition: 'border-color 0.3s ease',
           }}
+          onMouseOver={(e) => (e.currentTarget.style.borderColor = '#CDAC82')}
+          onMouseOut={(e) => (e.currentTarget.style.borderColor = 'transparent')}
         >
 
           <Paper style={{

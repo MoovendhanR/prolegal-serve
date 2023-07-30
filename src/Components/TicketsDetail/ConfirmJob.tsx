@@ -43,6 +43,8 @@ type SelectedValueProp = {
 
 const ConfirmJob: React.FC<SelectedValueProp> = ({ selectedValue }) => {
   const [serverRates, setServerRates] = useState<ServerRate[]>([]);
+  const [assignedIds, setAssignedIds] = useState<number[]>([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +64,11 @@ const ConfirmJob: React.FC<SelectedValueProp> = ({ selectedValue }) => {
     fetchData();
   }, [selectedValue]);
 
-  console.log(serverRates);
+  const handleAssignClick=(id:number) => {
+    setAssignedIds([...assignedIds, id]);
 
+    
+  }
   return (
     <Container size="xl" style={{ width: '95%', margin: 'auto' }}>
       <ConfirmJobHeading />
@@ -109,8 +114,14 @@ const ConfirmJob: React.FC<SelectedValueProp> = ({ selectedValue }) => {
               {server.rate === 0 ? 'Not Available' : `$${server.rate}`}
             </Text>
             <Text weight={350} size="sm">
-                <Button variant='default'>Assign</Button>
-            </Text>
+          <Button variant='default' 
+          onClick={()=>handleAssignClick(server.id)}
+          disabled={assignedIds.includes(server.id)}
+
+          >
+          {assignedIds.includes(server.id) ? 'Assigned!' : 'Assign'}
+            </Button>               
+          </Text>
           </Group>
         ))
       ) : (
