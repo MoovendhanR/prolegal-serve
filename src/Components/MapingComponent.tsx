@@ -1,12 +1,12 @@
 import React, { useState,useEffect } from 'react';
-import { Text, Grid, Paper, Button, Loader, Select } from '@mantine/core';
+import { Text, Grid, Paper, Button, Loader, Select, Avatar } from '@mantine/core';
 import {  Box, TextInput, ActionIcon } from '@mantine/core';
-import { IconAdjustments, IconSearch } from '@tabler/icons-react';
+import { IconAdjustments, IconSearch, IconUser } from '@tabler/icons-react';
 import PaginationComponent from './Pagination';
 import axios from 'axios';
+import "../App.css";
 import { Link } from 'react-router-dom';
 
-import { IconEyeFilled } from '@tabler/icons-react';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -55,24 +55,31 @@ interface TicketAttachment {
 const  Mapingcomponent : React.FC=() => {
     const [data, setData] = useState<Ticket[]>([]); 
     const [selectedPriority, setSelectedPriority] = useState<string>('');
-    // const [searchQuery, setSearchQuery] = useState<string>('');
 
-  useEffect(() => {
-    const fetchData = async () => {
-        const apiEndpoint = 'https://core-api-staging.processserver.ai/api/zendesk';
-        const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJmaXJzdE5hbWUiOiJHcmVnZyIsImxhc3ROYW1lIjoiQWxwZXIiLCJlbWFpbCI6ImdyZWdnQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEUwQ1FzSEhRQVdqTC9VRWZGVjAuQi5QSlVVVy9IWndTY09mTHI1MnoxWGE2ZzlLelhBUHpPIiwicGhvbmVOdW1iZXIiOiIxMjM0NTY3ODkwIiwibm90aWZpY2F0aW9uUGhvbmVOdW1iZXIiOiIxMjM0NTY3ODkwIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wOSAxMTowNzo1MCIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDkgMTE6Mzk6NDkiLCJjb21wYW5pZXMiOlt7ImlkIjoxLCJjb21wYW55SWQiOjEsInVzZXJSb2xlcyI6W3siaWQiOjIsInJvbGUiOnsiaWQiOjQsIm5hbWUiOiJBZG1pbiJ9fV0sImNvbXBhbnkiOnsiaWQiOjEsIm5hbWUiOiJQcm8gTGVnYWwgU2VydmUiLCJ0eXBlIjoiT3BlcmF0aW5nIENvbXBhbnkifX1dfSwiaWF0IjoxNjg4NTYzNDU0fQ.cePhwdvCq2BZ3hXI-Lb75DUawbTW__WqxZ5HwgQH7z8';
-          const headers = {
-          Authorization: `Bearer ${authToken}`,
-        };
-      try {
-        // Fetch the data using Axios with the provided authorization token
-        const response = await axios.get<MyData>(apiEndpoint, { headers });
-        setData(response.data.data.tickets);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+    const [searchOption, setSearchOption] = useState('');
+
+   console.log(data)
+
+    
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchOption(event.currentTarget.value);
+  };
+  const fetchData = async () => {
+    const apiEndpoint = `https://core-api-staging.processserver.ai/api/zendesk?search=${searchOption}`;
+    const authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJmaXJzdE5hbWUiOiJHcmVnZyIsImxhc3ROYW1lIjoiQWxwZXIiLCJlbWFpbCI6ImdyZWdnQGFkbWluLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJEUwQ1FzSEhRQVdqTC9VRWZGVjAuQi5QSlVVVy9IWndTY09mTHI1MnoxWGE2ZzlLelhBUHpPIiwicGhvbmVOdW1iZXIiOiIxMjM0NTY3ODkwIiwibm90aWZpY2F0aW9uUGhvbmVOdW1iZXIiOiIxMjM0NTY3ODkwIiwiY3JlYXRlZEF0IjoiMjAyMy0wNi0wOSAxMTowNzo1MCIsInVwZGF0ZWRBdCI6IjIwMjMtMDYtMDkgMTE6Mzk6NDkiLCJjb21wYW5pZXMiOlt7ImlkIjoxLCJjb21wYW55SWQiOjEsInVzZXJSb2xlcyI6W3siaWQiOjIsInJvbGUiOnsiaWQiOjQsIm5hbWUiOiJBZG1pbiJ9fV0sImNvbXBhbnkiOnsiaWQiOjEsIm5hbWUiOiJQcm8gTGVnYWwgU2VydmUiLCJ0eXBlIjoiT3BlcmF0aW5nIENvbXBhbnkifX1dfSwiaWF0IjoxNjg4NTYzNDU0fQ.cePhwdvCq2BZ3hXI-Lb75DUawbTW__WqxZ5HwgQH7z8';
+    const headers = {
+      Authorization: `Bearer ${authToken}`,
     };
-
+    try {
+      // Fetch the data using Axios with the provided authorization token
+      const response = await axios.get<MyData>(apiEndpoint, { headers });
+      setData(response.data.data.tickets);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+  
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -148,13 +155,13 @@ const filteredTickets = selectedPriority
       radius="sm"
       size=''
       rightSection={
-        <ActionIcon  radius="xl" color={"grey"} variant="grey">
+        <ActionIcon  radius="xl" color={"grey"} variant="grey" onClick={fetchData} className="hover-button" >
             <IconSearch size="1.1rem" stroke={2.5} color='orange' />
             <IconAdjustments size="1.1rem" stroke={2.5} color='orange'style={{marginLeft:'0.2rem'}} />
         </ActionIcon>
       }
-      // value={searchQuery}
-      // onChange={handleSearchQueryChange}
+      value={searchOption}
+      onChange={handleSearchChange}
       placeholder=" Search..."
       rightSectionWidth={80} 
     />
@@ -171,10 +178,9 @@ const filteredTickets = selectedPriority
           boxShadow: "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
         }}
       >
-        <Paper style={{padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
-          <Text size="sm" align="center">
-          <IconEyeFilled/>
-          </Text>
+        <Paper style={{display:"flex",justifyContent:"center",padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
+          <Avatar radius="xs" size="sm"  src="https://img.icons8.com/?size=1x&id=VROWGw8C8j6y&format=png" alt="no image here" />
+          
         </Paper>
 
         <Paper style={{padding:"0.5rem",textAlign:'center',boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 8px"}}>
@@ -264,7 +270,7 @@ const filteredTickets = selectedPriority
              width: "60%",
              height:"60%",
              margin:"auto",
-            padding:"0.5rem",textAlign:'center'}}>Icon</Paper>
+            padding:"0.5rem",textAlign:'center'}}><IconUser/></Paper>
           <Paper style={{
              display: "flex",
              justifyContent: "center",
@@ -329,15 +335,16 @@ const filteredTickets = selectedPriority
 
             padding:"0.5rem",textAlign:'center'}}>{ticket?.attachments?.length}</Paper>
           <Paper style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            
-              margin:"auto",
-              padding:"0.5rem",
-              fontSize:"12px",
-            textAlign:'center',border:"1px solid #b9c2c9"}}>
-            {`View Ticket #${ticket?.ticketId}`}</Paper>
+           
+            margin:"auto",
+            fontSize:"12px",
+            textAlign:'center'}}>
+              <Link  to={`/view-job/${ticket?.ticketId}`}>
+              <Button variant='default'>
+            {`View Ticket #${ticket?.ticketId}`}
+              </Button>
+              </Link>
+            </Paper>
           <Paper style={{
               display: "flex",
               justifyContent: "center",
