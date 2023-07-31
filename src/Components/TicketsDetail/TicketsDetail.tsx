@@ -424,8 +424,7 @@ const displayAttachmentPDF = (s3Url: string) => {
            gridTemplateColumns: '1fr 1fr 1fr 1fr', // Fixed column widths
           alignItems: 'center',
           gap:"1rem",
-          width:"70%",
-          margin:"auto",
+          paddingLeft:"1rem",
         }}
       >
          <Paper style={{textAlign:'center',color:"#9D733F",width:"25%"}}>
@@ -459,19 +458,17 @@ const displayAttachmentPDF = (s3Url: string) => {
                 
                   {ticketData[0]?.attachments?.map((attachment) => (
                     <Box key={attachment?.id} style={{ 
-                      display:"flex",
-                      justifyContent:"center",
-                      width:"70%",
-                      marginLeft:"4rem",
-                      gap:"1.5rem",
-                      alignItems:"center",
+                      display: 'grid',
+             gridTemplateColumns: '1fr 1fr 1fr 1fr', // Fixed column widths
+              alignItems: 'center',
+              paddingLeft:"0.5rem",
+              gap:"0.5rem",
+              marginTop:"0.5rem",
                       boxShadow:"none",
                      }}>
                        <Avatar size="sm" 
                        style={{
-                        width:"25%", 
-                        boxShadow:"none",
-                        padding:"0.1rem",
+                        width: "45%",
                         cursor:"pointer"
                         }} onClick={() => handleClick(attachment.id)}>
                         {visibleTicketId === attachment.id ?<IconGripVertical color="#cdac82"/>:<IconGripVertical color="#aca9a4"/>}
@@ -482,36 +479,18 @@ const displayAttachmentPDF = (s3Url: string) => {
                         </Box>
 
                         </Avatar>
-                         <Paper style={{
-                          padding:"0.1rem",
-                          width:"25%",
-                          
-                          }}>
-                         <Text size="l"  style={{
-                          textAlign:"center",
-                        padding:"0.1rem",
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                         }}>
+                         <Text size="l" ml={"-1rem"}  truncate>
                          {attachment?.attachments[0]?.documentName}
                        </Text>
-                       </Paper>
                        
-                        <Paper style={{padding:"0.1rem",textAlign:'center',width:"25%"}}>
-                        <Text size="l"  style={{
-                          whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",}}>
+                        
+                        <Text size="l"  truncate>
                        { attachment?.attachments[0]?.documentType}
                        </Text>
-                      </Paper>
 
-                      <Paper style={{padding:"0.1rem",textAlign:'center',width:"25%"}}>
-                        <Text size="l" style={{textAlign:'center'}}>
+                        <Text size="l" ml={"1.5rem"} truncate>
                         {attachment?.attachments[0]?.noOfPages}
                        </Text>
-                       </Paper>
                     </Box>
                      
                       

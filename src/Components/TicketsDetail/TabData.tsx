@@ -126,7 +126,13 @@ function  TabComponent({jobdata}:JobData) {
       </Tabs>
      
       <div style={{ marginTop: 20,width:'70%' }}>
-        <Paper style={{display:"flex",gap:"0.5rem"}}>
+        <Paper style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr', // Fixed column widths
+           alignItems: 'center',
+           gap:"1rem",
+           paddingLeft:"1rem",
+          }}>
             <Text style={{width:"30%"}}>{" "}</Text>
             <Text style={{width:"30%",color:"#9D733F"}}>Type</Text>
             <Text style={{width:"30%",color:"#9D733F"}}>Name</Text>
@@ -134,41 +140,27 @@ function  TabComponent({jobdata}:JobData) {
         <Paper style={{display:"flex",gap:"0.5rem",alignItems:'center' }}>
 
        
-        <Text style={{padding:"0.5rem",textAlign:'center',
-                     marginLeft:"2rem",
-                      display:"flex",
-                      justifyContent:"space-evenly",
-                      alignItems:'center',
-                       width:"80%",
-                       whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",
+        <Paper style={{
+          padding:"0.5rem",textAlign:'center',
+                     marginLeft:"1rem",
+                     display: 'grid',
+                     gridTemplateColumns: '1fr 1fr 1fr ', // Fixed column widths
+                    alignItems: 'center',
+                    gap:"1rem",
+                                         
                     }}>
                       {tabsData[activeTab]?.attachments?.map((tab)=>(
                        <>
-                        <Text style={{display:"flex",color:"#b0aba5",width:"30%",cursor:"pointer"}}>
+                        <Text style={{display:"flex",color:"#b0aba5",cursor:"pointer"}}>
                       <IconGripVertical/>
                       <IconEye/>
                       <IconNotes/>
                       </Text>
-                       <Text  
-                       style={{padding:"0.5rem",textAlign:'center',
-                       width:"40%",
-                       whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",
-                    }} >{tab?.documentName}</Text>
-                        <Text  
-                      style={{padding:"0.5rem",textAlign:'center',
-                      marginLeft:"1rem",
-                       width:"40%",
-                       whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",
-                    }}>{tab?.documentType}</Text>
+                       <Text truncate>{tab?.documentName}</Text>
+                        <Text truncate>{tab?.documentType}</Text>
                         </>
                       ))}
-                    </Text>
+                    </Paper>
 
 
 

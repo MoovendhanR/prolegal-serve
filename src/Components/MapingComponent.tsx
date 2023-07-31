@@ -155,7 +155,7 @@ const filteredTickets = selectedPriority
       radius="sm"
       size=''
       rightSection={
-        <ActionIcon  radius="xl" color={"grey"} variant="grey" onClick={fetchData} className="hover-button" >
+        <ActionIcon  radius="xl" color={"grey"} variant="grey" onClick={fetchData} >
             <IconSearch size="1.1rem" stroke={2.5} color='orange' />
             <IconAdjustments size="1.1rem" stroke={2.5} color='orange'style={{marginLeft:'0.2rem'}} />
         </ActionIcon>
