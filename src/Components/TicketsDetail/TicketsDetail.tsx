@@ -459,14 +459,14 @@ const displayAttachmentPDF = (s3Url: string) => {
                   {ticketData[0]?.attachments?.map((attachment) => (
                     <Box key={attachment?.id} style={{ 
                       display: 'grid',
-             gridTemplateColumns: '1fr 1fr 1fr 1fr', // Fixed column widths
-              alignItems: 'center',
-              paddingLeft:"0.5rem",
-              gap:"0.5rem",
-              marginTop:"0.5rem",
+                   gridTemplateColumns: '1fr 1fr 1fr 1fr', // Fixed column widths
+                  alignItems: 'center',
+                 paddingLeft:"0.5rem",
+                 gap:"0.5rem",
+                 marginTop:"0.5rem",
                       boxShadow:"none",
                      }}>
-                       <Avatar size="sm" 
+                      {!attachment?.attachments[0]?.isPrimary?  <Avatar size="sm" 
                        style={{
                         width: "45%",
                         cursor:"pointer"
@@ -474,22 +474,17 @@ const displayAttachmentPDF = (s3Url: string) => {
                         {visibleTicketId === attachment.id ?<IconGripVertical color="#cdac82"/>:<IconGripVertical color="#aca9a4"/>}
                         {/* <IconEyeCheck color="#CDAC82"/> */}
                         <Box >
-
                         {visibleTicketId === attachment.id ? < IconEye color="#CDAC82" /> : <IconEyeClosed color="#D9D9D9" />}
                         </Box>
-
-                        </Avatar>
+                        </Avatar>:null}
                          <Text size="l" ml={"-1rem"}  truncate>
-                         {attachment?.attachments[0]?.documentName}
+                         {!attachment?.attachments[0]?.isPrimary? attachment?.attachments[0]?.documentName:null}
                        </Text>
-                       
-                        
                         <Text size="l"  truncate>
-                       { attachment?.attachments[0]?.documentType}
+                       {!attachment?.attachments[0]?.isPrimary? attachment?.attachments[0]?.documentType:null}
                        </Text>
-
                         <Text size="l" ml={"1.5rem"} truncate>
-                        {attachment?.attachments[0]?.noOfPages}
+                        {!attachment?.attachments[0]?.isPrimary? attachment?.attachments[0]?.noOfPages : null}
                        </Text>
                     </Box>
                      
