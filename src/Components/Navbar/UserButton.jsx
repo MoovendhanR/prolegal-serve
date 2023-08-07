@@ -1,12 +1,15 @@
+import * as React from 'react';
+
+
 import {
   UnstyledButton,
-  UnstyledButtonProps,
   Group,
   Avatar,
   Text,
   createStyles,
 } from '@mantine/core';
 import { IconChevronDown,IconBell } from '@tabler/icons-react';
+
 
 const useStyles = createStyles((theme) => ({
   user: {
@@ -26,14 +29,8 @@ const useStyles = createStyles((theme) => ({
   }
 }));
 
-interface UserButtonProps extends UnstyledButtonProps {
-  image: string;
-  name: string;
-  email: string;
-  icon?: React.ReactNode;
-}
 
-export function UserButton({ image, name, icon, ...others }: UserButtonProps) {
+export function UserButton({ image, name, icon, ...others }) {
   const { classes } = useStyles();
 
   return (

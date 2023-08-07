@@ -1,7 +1,10 @@
+import React from "react";
+
+
 import { createStyles,TextInput,Box, Header,ActionIcon} from '@mantine/core';
 import { IconSearch } from '@tabler/icons-react';
-
-import { UserButton } from './Navbar/UserButton';
+import { UserButton } from '../Navbar/UserButton';
+// import { UserButton } from './Navbar/UserButton';
 
 const useStyles = createStyles((theme) => ({
   header: {

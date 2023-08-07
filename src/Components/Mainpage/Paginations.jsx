@@ -3,13 +3,9 @@ import { Button } from '@mantine/core';
 import {  IconChevronsRight } from '@tabler/icons-react';
 import { IconChevronsLeft } from '@tabler/icons-react';
 
-interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  onPageChange: (page: number) => void;
-}
 
- function PaginationComponent ({ currentPage, totalPages, onPageChange,...others }:PaginationProps) {
+
+ function PaginationComponent ({ currentPage, totalPages, onPageChange }) {
   const handlePrevClick = () => {
     onPageChange(currentPage - 1);
   };
@@ -20,7 +16,7 @@ interface PaginationProps {
 
 
   
-  const handlePageClick = (page: number) => {
+  const handlePageClick = (page) => {
     onPageChange(page);
   };
 

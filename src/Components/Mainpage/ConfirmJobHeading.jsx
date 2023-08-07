@@ -1,7 +1,7 @@
 import React from 'react';
 import { Group, Text } from '@mantine/core';
 
-const ConfirmJobHeading: React.FC = () => {
+const ConfirmJobHeading = () => {
   return (
     <Group
       style={{

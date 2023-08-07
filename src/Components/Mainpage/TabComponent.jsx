@@ -42,57 +42,8 @@
 import React, { useEffect, useState } from 'react';
 import { Tabs, Text, Button, Paper } from '@mantine/core';
 import { IconEye, IconGripVertical, IconNote, IconNotes } from '@tabler/icons-react';
-interface Case {
-  id: number;
-  referenceOrMatterNumber: string | null;
-  caseNumber: string;
-  state: string;
-  county: string;
-  courtType: string;
-  plaintiff: string;
-  defendant: string;
-  createdAt: string;
-  updatedAt: string;
-}
 
-interface Attachment {
-  id: number;
-  documentName: string;
-  documentType: string;
-  isPrimary: boolean;
-  zendeskAttachmentId: number;
-}
-
-interface Job {
-  id: number;
-  serviceSpeed: string;
-  serveeType: string;
-  serveeName: string | null;
-  registeredAgent: string | null;
-  zipcode: string;
-  googlePlacesAddress: string | null;
-  serveeAddress: string;
-  firstAttemptBy: string | null;
-  specialInstructions: string | null;
-  trialDepoOrActionDate: string | null;
-  status: string;
-  attorneyName: string;
-  eFileReturnOfService: boolean;
-  zendeskId: number;
-  caseId: number;
-  createdAt: string;
-  updatedAt: string;
-  case: Case;
-  attachments: Attachment[];
-  serverAddress: string[];
-  jobPictures: string[];
-}
-
- interface JobData {
-  jobdata: Job[];
-}
-
-function  TabComponent({jobdata}:JobData) {
+function  TabComponent({jobdata}) {
   // const tabsData: JobData[] = [
   //   { label: 'Tab 1', content: 'Content of Tab 1' },
   //   { label: 'Tab 2', content: 'Content of Tab 2' },
@@ -104,6 +55,7 @@ function  TabComponent({jobdata}:JobData) {
      setDabsData(jobdata)
   },[jobdata])
 
+  // console.log(tabsData,"check")
   const [activeTab, setActiveTab] = useState(0);
 
   return (
@@ -111,9 +63,11 @@ function  TabComponent({jobdata}:JobData) {
       <Tabs>
         <div style={{display:"flex",gap:"0.5rem",alignItems: "flex-start"}}>
 
-        {tabsData?.map((tab, index) => (
-          <Button
-          
+        {
+         tabsData.length > 0 ? (
+         <>
+           {tabsData.map((tab, index) => (
+          <Button    
           key={index}
           variant={index === activeTab ? 'outline' : 'default'}
           onClick={() => setActiveTab(index)}
@@ -121,7 +75,17 @@ function  TabComponent({jobdata}:JobData) {
           <IconNote/>
            {`Job ${index+1}`}
           </Button>
-        ))}
+            ))}
+             </>
+             ):(
+                       <>
+                            <Text style={{display:"flex",color:"#b0aba5",cursor:"pointer"}}>
+                          
+                            </Text>
+                             <Text truncate>Not mentioned</Text>
+                            </>
+                        )
+                      }
         </div>
       </Tabs>
      
@@ -149,27 +113,36 @@ function  TabComponent({jobdata}:JobData) {
                     gap:"1rem",
                                          
                     }}>
-                      {tabsData[activeTab]?.attachments?.map((tab)=>(
+                      {
+                        tabsData.length > 0 ? (<>
+                        {tabsData[activeTab].attachments.map((tab)=>(
                        <>
                         <Text style={{display:"flex",color:"#b0aba5",cursor:"pointer"}}>
                       <IconGripVertical/>
                       <IconEye/>
                       <IconNotes/>
                       </Text>
-                       <Text truncate>{tab?.documentName}</Text>
-                        <Text truncate>{tab?.documentType}</Text>
+                       <Text truncate>{tab.documentName}</Text>
+                        <Text truncate>{tab.documentType}</Text>
                         </>
                       ))}
+                        </>
+                        ):(
+                            <>
+                            <Text style={{display:"flex",color:"#b0aba5",cursor:"pointer"}}>
+                            <IconGripVertical/>
+                            <IconEye/>
+                            <IconNotes/>
+                            </Text>
+                             <Text truncate>Not mentioned</Text>
+                              <Text truncate>Not mentioned</Text>
+                            </>
+                        )
+                      }
                     </Paper>
 
 
 
-        {/* <Text style={{padding:"0.5rem",textAlign:'center',
-                    width:"30%",
-                       whiteSpace: "nowrap",
-                       overflow: "hidden",
-                       textOverflow: "ellipsis",
-                    }}>{tabsData[activeTab]?.attachments[0]?.documentType}</Text> */}
         </Paper>
       </div>
     </div>

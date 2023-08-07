@@ -1,3 +1,6 @@
+import React from "react";
+
+
 import { Navbar, Group, ScrollArea, createStyles, rem } from '@mantine/core';
 import {
   IconNotes,
@@ -42,6 +45,7 @@ const mockdata = [
   {
     label: 'Configurations',
     icon: IconSettings,
+    initiallyOpened: true,
     links: [
       { label: 'Profile', link: '/' },
       { label: 'Company', link: '/' },
